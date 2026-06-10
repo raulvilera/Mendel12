@@ -184,7 +184,7 @@
   // ==================== ENDPOINT APPSCRIPT ====================
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyERmYA0s2pKTrz47WrXoP52JVcfZL0pnJwyTwBdC_rpfzi5e3xx24pXfZTSUnAEuZB/exec';
 
-  // UTF-8 safe base64 — replica exatamente TextEncoder + btoa do padrão
+  // UTF-8 safe base64
   function toBase64UTF8(str) {
     const bytes = new TextEncoder().encode(str);
     let bin = '';
@@ -192,28 +192,51 @@
     return btoa(bin);
   }
 
-  // Monta a URL GET completa com callback e data
-  function buildURL(payload, cbName) {
-    const json    = JSON.stringify(payload);           // sem espaços extras
-    const b64     = toBase64UTF8(json);               // base64 UTF-8 safe
-    const encoded = encodeURIComponent(b64);          // URL encode do base64
-    return `${SCRIPT_URL}?callback=${cbName}&data=${encoded}`;
+  // Monta URL GET com o payload codificado
+  function buildURL(payload) {
+    const b64     = toBase64UTF8(JSON.stringify(payload));
+    const encoded = encodeURIComponent(b64);
+    return SCRIPT_URL + '?data=' + encoded;
   }
 
-  // Estratégia 1: JSONP via <script> (principal)
-  function enviarJSONP(url, cbName, onSuccess, onError) {
-    const script  = document.createElement('script');
-    script.src    = url;
+  // Envio principal: fetch no-cors
+  // O Google Apps Script redireciona /exec para script.googleusercontent.com,
+  // o que quebra o JSONP. fetch com mode:'no-cors' segue o redirect e
+  // dispara a execução do doGet normalmente, sem precisar ler a resposta.
+  function enviarAppScript(payload, onSuccess, onError) {
+    const url = buildURL(payload);
+    console.log('[AppScript] URL:', url);
+    console.log('[AppScript] Payload:', JSON.stringify(payload, null, 2));
 
-    const timer = setTimeout(() => {
+    fetch(url, { method: 'GET', mode: 'no-cors' })
+      .then(function() {
+        // no-cors não expõe o corpo — mas o doGet foi executado no servidor
+        console.log('[AppScript] fetch no-cors concluído — gravação disparada');
+        onSuccess({ status: 'ok', via: 'fetch-no-cors' });
+      })
+      .catch(function(err) {
+        console.error('[AppScript] fetch falhou:', err);
+        // Fallback: JSONP caso fetch bloqueado por política do browser
+        enviarJSONP(payload, onSuccess, onError);
+      });
+  }
+
+  // Fallback JSONP (usado apenas se fetch falhar)
+  function enviarJSONP(payload, onSuccess, onError) {
+    const cbName = 'cb_' + Date.now();
+    const url    = buildURL(payload) + '&callback=' + cbName;
+    const script = document.createElement('script');
+    script.src   = url;
+
+    const timer = setTimeout(function() {
       cleanup();
-      onError('timeout');
+      onError('Timeout: servidor não respondeu em 20s');
     }, 20000);
 
     function cleanup() {
       clearTimeout(timer);
       delete window[cbName];
-      script.parentNode && script.parentNode.removeChild(script);
+      if (script.parentNode) script.parentNode.removeChild(script);
     }
 
     window[cbName] = function(resp) {
@@ -221,52 +244,12 @@
       if (resp && (resp.status === 'ok' || resp.result === 'success')) {
         onSuccess(resp);
       } else {
-        onError('appscript_error: ' + JSON.stringify(resp));
+        onError('Erro AppScript: ' + JSON.stringify(resp));
       }
     };
 
-    script.onerror = () => { cleanup(); onError('script_load_error'); };
+    script.onerror = function() { cleanup(); onError('Erro ao carregar script'); };
     document.head.appendChild(script);
-  }
-
-  // Estratégia 2: fetch no-cors (fallback — não lê resposta, mas dispara a gravação)
-  function enviarFetch(url) {
-    return fetch(url.replace(/&callback=[^&]+/, '&callback=none'), {
-      method: 'GET',
-      mode:   'no-cors'
-    }).catch(() => {});
-  }
-
-  // Orquestrador: tenta JSONP; se timeout/erro, dispara fetch no-cors como fallback
-  function enviarAppScript(payload, onSuccess, onError) {
-    const cbName = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 9999);
-    const url    = buildURL(payload, cbName);
-
-    // DEBUG: mostra URL no console para inspeção
-    console.log('[AppScript] Enviando para:', url);
-    console.log('[AppScript] Payload:', JSON.stringify(payload, null, 2));
-
-    let fallbackFired = false;
-
-    enviarJSONP(url, cbName,
-      // JSONP OK
-      function(resp) {
-        console.log('[AppScript] Resposta JSONP:', resp);
-        onSuccess(resp);
-      },
-      // JSONP falhou → tenta fetch no-cors
-      function(err) {
-        console.warn('[AppScript] JSONP falhou (' + err + '), tentando fetch no-cors...');
-        if (!fallbackFired) {
-          fallbackFired = true;
-          enviarFetch(url).then(() => {
-            // fetch no-cors não retorna resposta — assumimos enviado
-            console.log('[AppScript] fetch no-cors disparado');
-            onSuccess({ status: 'ok', via: 'fetch-no-cors' });
-          });
-        }
-      }
-    );
   }
 
   // ==================== LÓGICA DA ATIVIDADE ====================
