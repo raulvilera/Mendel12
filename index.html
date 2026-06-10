@@ -7,438 +7,84 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@700;800&display=swap');
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     font-family: 'Inter', sans-serif;
     background: linear-gradient(145deg, #cfe7ff 0%, #a8d0ff 100%);
-    /* Fundo azul claro com leve degradê */
     min-height: 100vh;
     padding: 0 0 70px;
     color: #1a2c3e;
   }
 
-  /* --- EFEITO GERAL DE RELEVO NOS ELEMENTOS --- */
-  .relief {
-    box-shadow: 0 8px 14px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6);
-    transition: all 0.12s linear;
-  }
+  .relief { box-shadow: 0 8px 14px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.6); transition: all 0.12s linear; }
+  .pressed { transform: translateY(3px); box-shadow: 0 3px 6px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3); }
 
-  .pressed {
-    transform: translateY(3px);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3);
-  }
+  .school-header { background: #eef5ff; padding: 1.8rem 2rem; border-bottom: 3px solid #3a7eb6; box-shadow: 0 10px 20px -8px rgba(0,0,0,0.2), inset 0 1px 0 white; }
+  .school-header h1 { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.6rem; color: #0a4c7a; text-shadow: 1px 1px 0 white; }
+  .school-header .subtitle { font-size: 0.8rem; font-weight: 600; color: #2c628b; text-transform: uppercase; letter-spacing: 1px; }
 
-  /* cabeçalho com alto relevo */
-  .school-header {
-    background: #eef5ff;
-    padding: 1.8rem 2rem;
-    border-bottom: 3px solid #3a7eb6;
-    box-shadow: 0 10px 20px -8px rgba(0,0,0,0.2), inset 0 1px 0 white;
-  }
+  .main-wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
 
-  .school-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 800;
-    font-size: 1.6rem;
-    color: #0a4c7a;
-    text-shadow: 1px 1px 0 white;
-  }
-
-  .school-header .subtitle {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #2c628b;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .main-wrap {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  /* CARD DE IDENTIFICAÇÃO - ALTO RELEVO */
-  .id-card {
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(2px);
-    border-radius: 32px;
-    padding: 26px 32px;
-    margin: 28px 0;
-    border: 1px solid #c2dcff;
-    box-shadow: 0 16px 28px -10px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.8);
-  }
-
-  .id-card h2 {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 700;
-    color: #1f6392;
-    margin-bottom: 20px;
-  }
-
-  .field label {
-    display: block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #1f5983;
-    margin-bottom: 6px;
-    letter-spacing: 0.5px;
-  }
-
-  .field select, .field input {
-    width: 100%;
-    padding: 12px 14px;
-    background: #ffffff;
-    border: 1px solid #b9d4ff;
-    border-radius: 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    color: #0a2f4d;
-    transition: all 0.2s;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05), 0 1px 1px white;
-  }
-  
-  .field select:focus, .field input:focus {
-    border-color: #2f87c7;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(47, 135, 199, 0.2), inset 0 1px 2px white;
-  }
-
-  .field input[readonly] {
-    background: #eef4fc;
-    color: #1a4970;
-    font-style: normal;
-  }
-
-  .id-row, .id-row-2 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-  }
+  .id-card { background: rgba(255,255,255,0.92); backdrop-filter: blur(2px); border-radius: 32px; padding: 26px 32px; margin: 28px 0; border: 1px solid #c2dcff; box-shadow: 0 16px 28px -10px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.8); }
+  .id-card h2 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; color: #1f6392; margin-bottom: 20px; }
+  .field label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #1f5983; margin-bottom: 6px; letter-spacing: 0.5px; }
+  .field select, .field input { width: 100%; padding: 12px 14px; background: #ffffff; border: 1px solid #b9d4ff; border-radius: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #0a2f4d; transition: all 0.2s; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05), 0 1px 1px white; }
+  .field select:focus, .field input:focus { border-color: #2f87c7; outline: none; box-shadow: 0 0 0 3px rgba(47,135,199,0.2), inset 0 1px 2px white; }
+  .field input[readonly] { background: #eef4fc; color: #1a4970; }
+  .id-row, .id-row-2 { display: flex; flex-wrap: wrap; gap: 18px; }
   .id-row { margin-bottom: 12px; }
-  .field-turma { flex: 1 1 140px; }
-  .field-aluno { flex: 2 1 260px; }
-  .field-date { flex: 1 1 150px; }
-  .field-chamada { flex: 0.6 1 90px; }
-  .field-ra { flex: 1 1 180px; }
-  .field-email { flex: 2 1 260px; }
+  .field-turma { flex: 1 1 140px; } .field-aluno { flex: 2 1 260px; } .field-date { flex: 1 1 150px; }
+  .field-chamada { flex: 0.6 1 90px; } .field-ra { flex: 1 1 180px; } .field-email { flex: 2 1 260px; }
 
-  /* AVISO TROCA ABA */
-  #tab-warning {
-    background: #fff2df;
-    border-left: 5px solid #f9a825;
-    padding: 12px 18px;
-    border-radius: 24px;
-    margin: 16px 0;
-    display: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #b45f06;
-  }
+  #tab-warning { background: #fff2df; border-left: 5px solid #f9a825; padding: 12px 18px; border-radius: 24px; margin: 16px 0; display: none; font-size: 0.85rem; font-weight: 500; color: #b45f06; }
   #tab-warning.visible { display: flex; align-items: center; gap: 12px; }
 
-  /* PROGRESSO */
-  .progress-wrap {
-    margin: 20px 0 12px;
-  }
-  .progress-bar {
-    height: 10px;
-    background: #cdddee;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: inset 0 1px 3px #00000020;
-  }
-  .progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #1f8a5c, #0f6e48);
-    border-radius: 20px;
-    transition: width 0.3s ease;
-  }
-  .progress-label {
-    text-align: right;
-    font-size: 0.75rem;
-    margin-top: 8px;
-    color: #1f5480;
-    font-weight: 600;
-  }
+  .progress-wrap { margin: 20px 0 12px; }
+  .progress-bar { height: 10px; background: #cdddee; border-radius: 20px; overflow: hidden; box-shadow: inset 0 1px 3px #00000020; }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1f8a5c, #0f6e48); border-radius: 20px; transition: width 0.3s ease; }
+  .progress-label { text-align: right; font-size: 0.75rem; margin-top: 8px; color: #1f5480; font-weight: 600; }
 
-  /* QUESTÕES CARD - relevo claro */
-  .q-card {
-    background: rgba(255, 255, 255, 0.96);
-    border-radius: 32px;
-    padding: 24px 28px;
-    margin-bottom: 28px;
-    border: 1px solid #cce2ff;
-    box-shadow: 0 12px 24px -12px rgba(0,0,0,0.2), inset 0 1px 0 white;
-    transition: all 0.1s;
-  }
+  .q-card { background: rgba(255,255,255,0.96); border-radius: 32px; padding: 24px 28px; margin-bottom: 28px; border: 1px solid #cce2ff; box-shadow: 0 12px 24px -12px rgba(0,0,0,0.2), inset 0 1px 0 white; transition: all 0.1s; }
+  .q-card.answered { border-left: 6px solid #3c8dc5; }
+  .q-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+  .q-number { background: radial-gradient(circle at 30% 30%, #3f8bcb, #1b5a8c); width: 44px; height: 44px; border-radius: 60px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; color: white; box-shadow: inset 0 -1px 0 #ffffff80, 0 6px 10px rgba(0,0,0,0.15); }
+  .q-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+  .q-tag, .q-hab, .diff { font-size: 0.7rem; font-weight: 600; padding: 5px 12px; border-radius: 40px; background: #e3efff; color: #1a5780; }
+  .diff-hard { background: #ffe0e0; color: #b13e3e; } .diff-med { background: #ffefcf; color: #b46f0a; } .diff-easy { background: #e1ffe8; color: #1b7341; }
+  .q-text { font-size: 1rem; line-height: 1.5; margin: 12px 0; color: #1e2f3e; }
+  .q-context { background: #ecf5fe; border-left: 4px solid #2f7eb6; padding: 14px 18px; border-radius: 20px; font-style: italic; margin: 16px 0; font-size: 0.9rem; color: #204c6e; }
 
-  .q-card.answered {
-    border-left: 6px solid #3c8dc5;
-  }
+  .options { list-style: none; display: flex; flex-direction: column; gap: 12px; margin: 20px 0 8px; }
+  .opt-btn { display: flex; align-items: center; gap: 14px; padding: 14px 20px; background: #f6faff; border: 1px solid #bfd6f5; border-radius: 60px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500; color: #1c3c5c; text-align: left; width: 100%; cursor: pointer; transition: all 0.07s linear; box-shadow: 0 6px 0 #b7c9e2, 0 3px 10px rgba(0,0,0,0.1); }
+  .opt-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b7c9e2, 0 4px 8px rgba(0,0,0,0.1); }
+  .opt-btn.selected-student { background: #1976d2 !important; border-color: #90caf9 !important; box-shadow: 0 4px 0 #0d3c6e !important; color: white !important; }
+  .opt-btn.selected-student.green-variant { background: #2e7d32 !important; border-color: #a5d6a7 !important; box-shadow: 0 4px 0 #1b5e20 !important; }
+  .opt-btn:hover:not(:disabled) { background: #e7f0ff; transform: translateY(-1px); box-shadow: 0 7px 0 #b7c9e2, 0 5px 12px rgba(0,0,0,0.15); }
+  .opt-btn:disabled { opacity: 0.7; cursor: default; transform: none; box-shadow: 0 4px 0 #b7c9e2; }
+  .opt-letter { font-weight: 800; font-size: 1rem; background: #deeaff; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 60px; color: #1f6190; }
+  .selected-student .opt-letter { background: #ffffffaa; color: #023b66; }
 
-  .q-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-  }
-  .q-number {
-    background: radial-gradient(circle at 30% 30%, #3f8bcb, #1b5a8c);
-    width: 44px;
-    height: 44px;
-    border-radius: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 1.3rem;
-    color: white;
-    box-shadow: inset 0 -1px 0 #ffffff80, 0 6px 10px rgba(0,0,0,0.15);
-  }
-  .q-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .q-tag, .q-hab, .diff {
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 5px 12px;
-    border-radius: 40px;
-    background: #e3efff;
-    color: #1a5780;
-  }
-  .diff-hard { background: #ffe0e0; color: #b13e3e; }
-  .diff-med { background: #ffefcf; color: #b46f0a; }
-  .diff-easy { background: #e1ffe8; color: #1b7341; }
-
-  .q-text {
-    font-size: 1rem;
-    line-height: 1.5;
-    margin: 12px 0;
-    color: #1e2f3e;
-  }
-  .q-context {
-    background: #ecf5fe;
-    border-left: 4px solid #2f7eb6;
-    padding: 14px 18px;
-    border-radius: 20px;
-    font-style: italic;
-    margin: 16px 0;
-    font-size: 0.9rem;
-    color: #204c6e;
-  }
-
-  /* ALTERNATIVAS: ALTO RELEVO E CORES DINÂMICAS (AZUL E VERDE) */
-  .options {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 20px 0 8px;
-  }
-  .opt-btn {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 20px;
-    background: #f6faff;
-    border: 1px solid #bfd6f5;
-    border-radius: 60px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #1c3c5c;
-    text-align: left;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.07s linear;
-    /* ALTO RELEVO pronunciado */
-    box-shadow: 0 6px 0 #b7c9e2, 0 3px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Efeito de afundar ao clicar */
-  .opt-btn:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 #b7c9e2, 0 4px 8px rgba(0,0,0,0.1);
-  }
-
-  /* COR ALTERNÂNCIA: quando assinalada pelo aluno, alterna entre AZUL e VERDE */
-  /* Primeira cor (azul) padrão - depois com classe toggle-green alterna para verde */
-  .opt-btn.selected-student {
-    background: #1976d2 !important;
-    border-color: #90caf9 !important;
-    box-shadow: 0 4px 0 #0d3c6e !important;
-    color: white !important;
-  }
-  .opt-btn.selected-student.green-variant {
-    background: #2e7d32 !important;
-    border-color: #a5d6a7 !important;
-    box-shadow: 0 4px 0 #1b5e20 !important;
-  }
-
-  .opt-btn:hover:not(:disabled) {
-    background: #e7f0ff;
-    transform: translateY(-1px);
-    box-shadow: 0 7px 0 #b7c9e2, 0 5px 12px rgba(0,0,0,0.15);
-  }
-  .opt-btn:disabled {
-    opacity: 0.7;
-    cursor: default;
-    transform: none;
-    box-shadow: 0 4px 0 #b7c9e2;
-  }
-
-  .opt-letter {
-    font-weight: 800;
-    font-size: 1rem;
-    background: #deeaff;
-    width: 32px;
-    height: 32px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 60px;
-    color: #1f6190;
-  }
-  .selected-student .opt-letter {
-    background: #ffffffaa;
-    color: #023b66;
-  }
-
-  /* feedbacks */
-  .feedback {
-    display: none;
-    margin-top: 16px;
-    padding: 12px 18px;
-    border-radius: 28px;
-    background: #f1f7fe;
-    font-size: 0.85rem;
-    border-left: 4px solid #6c9fd1;
-  }
+  .feedback { display: none; margin-top: 16px; padding: 12px 18px; border-radius: 28px; background: #f1f7fe; font-size: 0.85rem; border-left: 4px solid #6c9fd1; }
   .feedback.show { display: block; }
   .feedback.ok { background: #dcf5e8; border-left-color: #2e7d32; color: #145c2e; }
   .feedback.err { background: #ffe7e7; border-left-color: #c62828; color: #a12222; }
 
-  /* Botões enviar/limpar */
-  .action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    margin: 32px 0 24px;
-    flex-wrap: wrap;
-  }
+  .action-buttons { display: flex; justify-content: center; gap: 28px; margin: 32px 0 24px; flex-wrap: wrap; }
+  .action-btn { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1rem; padding: 14px 40px; border: none; border-radius: 60px; background: #f0f7ff; color: #144d74; cursor: pointer; transition: 0.07s linear; box-shadow: 0 7px 0 #b3c7df; letter-spacing: 0.5px; border: 1px solid white; }
+  .action-btn:active { transform: translateY(4px); box-shadow: 0 3px 0 #b3c7df; }
+  .action-btn#btn-submit-action { background: #1f8a6b; color: white; box-shadow: 0 7px 0 #115c45; }
+  .action-btn#btn-clear-action { background: #cb7b3c; color: white; box-shadow: 0 7px 0 #8e4e1f; }
+  .action-btn:disabled { opacity: 0.5; transform: none; cursor: not-allowed; }
 
-  .action-btn {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 14px 40px;
-    border: none;
-    border-radius: 60px;
-    background: #f0f7ff;
-    color: #144d74;
-    cursor: pointer;
-    transition: 0.07s linear;
-    box-shadow: 0 7px 0 #b3c7df;
-    letter-spacing: 0.5px;
-    border: 1px solid white;
-  }
-  .action-btn:active {
-    transform: translateY(4px);
-    box-shadow: 0 3px 0 #b3c7df;
-  }
-  .action-btn#btn-submit-action {
-    background: #1f8a6b;
-    color: white;
-    box-shadow: 0 7px 0 #115c45;
-  }
-  .action-btn#btn-clear-action {
-    background: #cb7b3c;
-    color: white;
-    box-shadow: 0 7px 0 #8e4e1f;
-  }
-  .action-btn:disabled {
-    opacity: 0.5;
-    transform: none;
-    cursor: not-allowed;
-  }
-
-  /* Outros painéis */
-  #send-status {
-    max-width: 860px;
-    margin: 12px auto;
-    border-radius: 28px;
-    padding: 14px 24px;
-    font-weight: 500;
-    text-align: center;
-    background: #ffffffcc;
-    backdrop-filter: blur(4px);
-  }
-  #hab-panel {
-    background: #fef9e6;
-    border-radius: 32px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 860px;
-    display: none;
-    border: 1px solid #ffe0a3;
-  }
+  #send-status { max-width: 860px; margin: 12px auto; border-radius: 28px; padding: 14px 24px; font-weight: 500; text-align: center; background: #ffffffcc; backdrop-filter: blur(4px); }
+  #hab-panel { background: #fef9e6; border-radius: 32px; padding: 20px; margin: 20px auto; max-width: 860px; display: none; border: 1px solid #ffe0a3; }
   #hab-panel.visible { display: block; }
-  #result-panel {
-    background: #ffffffdd;
-    backdrop-filter: blur(8px);
-    border-radius: 48px;
-    padding: 32px 24px;
-    text-align: center;
-    margin: 32px auto;
-    max-width: 580px;
-    display: none;
-    border: 1px solid #bbd6ff;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-  }
-  .score-circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 100%;
-    margin: 0 auto 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: #d9ebff;
-    box-shadow: inset 0 1px 5px #0001, 0 6px 12px rgba(0,0,0,0.1);
-  }
-  .q-img {
-    max-width: 100%;
-    border-radius: 24px;
-    margin: 15px 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  #btn-retry {
-    background: #3173a5;
-    border: none;
-    padding: 12px 28px;
-    border-radius: 60px;
-    font-weight: bold;
-    color: white;
-    box-shadow: 0 5px 0 #1c496b;
-    cursor: pointer;
-  }
-  @media (max-width: 640px) {
-    .q-card { padding: 18px; }
-    .opt-btn { padding: 10px 14px; }
-  }
+  #result-panel { background: #ffffffdd; backdrop-filter: blur(8px); border-radius: 48px; padding: 32px 24px; text-align: center; margin: 32px auto; max-width: 580px; display: none; border: 1px solid #bbd6ff; box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
+  .score-circle { width: 120px; height: 120px; border-radius: 100%; margin: 0 auto 20px; display: flex; flex-direction: column; justify-content: center; background: #d9ebff; box-shadow: inset 0 1px 5px #0001, 0 6px 12px rgba(0,0,0,0.1); }
+  .q-img { max-width: 100%; border-radius: 24px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  #btn-retry { background: #3173a5; border: none; padding: 12px 28px; border-radius: 60px; font-weight: bold; color: white; box-shadow: 0 5px 0 #1c496b; cursor: pointer; }
+  @media (max-width: 640px) { .q-card { padding: 18px; } .opt-btn { padding: 10px 14px; } }
 </style>
 </head>
 <body>
@@ -449,7 +95,6 @@
 </header>
 
 <div class="main-wrap">
-  <!-- IDENTIFICAÇÃO -->
   <div class="id-card">
     <h2>📖 IDENTIFICAÇÃO DO ALUNO</h2>
     <div class="id-row">
@@ -465,28 +110,36 @@
   </div>
 
   <div id="tab-warning"><span>⚠️</span><span id="tab-warning-text">Atenção: você saiu da aba. Registro contabilizado.</span></div>
-
   <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div><div class="progress-label" id="prog-label">0 / 10 respondidas</div></div>
 
-  <!-- QUESTÕES (1 a 10) -->
+  <!-- QUESTÃO 1 -->
   <div class="q-card" id="q1"><div class="q-header"><div class="q-number">1</div><div class="q-meta"><span class="q-tag">Divisão Celular · Mitose</span><span class="q-hab">EF09CI07</span><span class="diff diff-hard">Alta dificuldade</span></div></div><p class="q-text">Qual a ordem correta das fases da mitose?</p><div class="q-context">"Prófase, Metáfase, Anáfase, Telófase e Citocinese."</div><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/lBGbwMlMqHAjwRpy.jpg" class="q-img"><ul class="options" id="opts1"><li><button class="opt-btn" data-q="1" data-letter="A"><span class="opt-letter">A)</span> Telófase → Anáfase → Metáfase → Prófase → Citocinese</button></li><li><button class="opt-btn" data-q="1" data-letter="B"><span class="opt-letter">B)</span> Prófase → Metáfase → Anáfase → Telófase → Citocinese</button></li><li><button class="opt-btn" data-q="1" data-letter="C"><span class="opt-letter">C)</span> Metáfase → Prófase → Anáfase → Citocinese → Telófase</button></li><li><button class="opt-btn" data-q="1" data-letter="D"><span class="opt-letter">D)</span> Anáfase → Prófase → Metáfase → Telófase → Citocinese</button></li></ul><div class="feedback" id="fb1"></div></div>
 
+  <!-- QUESTÃO 2 -->
   <div class="q-card" id="q2"><div class="q-header"><div class="q-number">2</div><div class="q-meta"><span class="q-tag">Mitose vs Meiose</span><span class="q-hab">EF09CI07</span><span class="diff diff-med">Média</span></div></div><p class="q-text">Diferença correta entre mitose e meiose?</p><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/ZKamHlNKoSAzEkeP.png" class="q-img"><ul class="options" id="opts2"><li><button class="opt-btn" data-q="2" data-letter="A"><span class="opt-letter">A)</span> Mitose produz 4 células haploides; meiose 2 diploides.</button></li><li><button class="opt-btn" data-q="2" data-letter="B"><span class="opt-letter">B)</span> Mitose: 2 células-filhas idênticas; Meiose: 4 células com metade dos cromossomos.</button></li><li><button class="opt-btn" data-q="2" data-letter="C"><span class="opt-letter">C)</span> Mitose só nas gônadas; meiose em todo corpo.</button></li><li><button class="opt-btn" data-q="2" data-letter="D"><span class="opt-letter">D)</span> Ambas produzem metade dos cromossomos.</button></li></ul><div class="feedback" id="fb2"></div></div>
 
+  <!-- QUESTÃO 3 -->
   <div class="q-card" id="q3"><div class="q-header"><div class="q-number">3</div><div class="q-meta"><span class="q-tag">Meiose - função</span><span class="q-hab">EF09CI08</span><span class="diff diff-easy">Fácil</span></div></div><p class="q-text">Principal função da meiose para a reprodução sexuada?</p><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/bYQrmXXvecbTlQbb.png" class="q-img"><ul class="options" id="opts3"><li><button class="opt-btn" data-q="3" data-letter="A"><span class="opt-letter">A)</span> Duplicar material genético</button></li><li><button class="opt-btn" data-q="3" data-letter="B"><span class="opt-letter">B)</span> Reduzir número de cromossomos nos gametas</button></li><li><button class="opt-btn" data-q="3" data-letter="C"><span class="opt-letter">C)</span> Eliminar cromossomos defeituosos</button></li><li><button class="opt-btn" data-q="3" data-letter="D"><span class="opt-letter">D)</span> Produzir células somáticas</button></li></ul><div class="feedback" id="fb3"></div></div>
 
+  <!-- QUESTÃO 4 -->
   <div class="q-card" id="q4"><div class="q-header"><div class="q-number">4</div><div class="q-meta"><span class="q-tag">DNA complementar</span><span class="q-hab">EF09CI09</span><span class="diff diff-med">Média</span></div></div><p class="q-text">Fita modelo: A — T — G — C — A — T — G — C. Qual a complementar?</p><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/oNQbOvrZxGcZZdXC.png" class="q-img"><ul class="options" id="opts4"><li><button class="opt-btn" data-q="4" data-letter="A"><span class="opt-letter">A)</span> T — A — C — G — T — A — C — G</button></li><li><button class="opt-btn" data-q="4" data-letter="B"><span class="opt-letter">B)</span> A — T — G — C — A — T — G — C</button></li><li><button class="opt-btn" data-q="4" data-letter="C"><span class="opt-letter">C)</span> U — A — C — G — U — A — C — G</button></li><li><button class="opt-btn" data-q="4" data-letter="D"><span class="opt-letter">D)</span> T — T — C — G — T — T — C — G</button></li></ul><div class="feedback" id="fb4"></div></div>
 
+  <!-- QUESTÃO 5 -->
   <div class="q-card" id="q5"><div class="q-header"><div class="q-number">5</div><div class="q-meta"><span class="q-tag">Dominância Incompleta</span><span class="q-hab">EF09CI10</span><span class="diff diff-hard">Alta</span></div></div><p class="q-text">Cruzamento de duas rosas F1 (Rr × Rr) em dominância incompleta resulta em:</p><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/KsijBNcIjEhiLsOp.jpg" class="q-img"><ul class="options" id="opts5"><li><button class="opt-btn" data-q="5" data-letter="A"><span class="opt-letter">A)</span> 100% rosas</button></li><li><button class="opt-btn" data-q="5" data-letter="B"><span class="opt-letter">B)</span> 1/4 vermelhas, 2/4 rosas, 1/4 brancas</button></li><li><button class="opt-btn" data-q="5" data-letter="C"><span class="opt-letter">C)</span> 3/4 vermelhas, 1/4 brancas</button></li><li><button class="opt-btn" data-q="5" data-letter="D"><span class="opt-letter">D)</span> todas vermelhas</button></li></ul><div class="feedback" id="fb5"></div></div>
 
+  <!-- QUESTÃO 6 -->
   <div class="q-card" id="q6"><div class="q-header"><div class="q-number">6</div><div class="q-meta"><span class="q-tag">1ª Lei de Mendel</span><span class="q-hab">EF09CI10</span><span class="diff diff-med">Média</span></div></div><p class="q-text">João (aa) e esposa (Aa): chance de filho albino?</p><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/zHzABBTBBZCKrXhK.jpg" class="q-img"><ul class="options" id="opts6"><li><button class="opt-btn" data-q="6" data-letter="A"><span class="opt-letter">A)</span> 0%</button></li><li><button class="opt-btn" data-q="6" data-letter="B"><span class="opt-letter">B)</span> 25%</button></li><li><button class="opt-btn" data-q="6" data-letter="C"><span class="opt-letter">C)</span> 50%</button></li><li><button class="opt-btn" data-q="6" data-letter="D"><span class="opt-letter">D)</span> 100%</button></li></ul><div class="feedback" id="fb6"></div></div>
 
+  <!-- QUESTÃO 7 -->
   <div class="q-card" id="q7"><div class="q-header"><div class="q-number">7</div><div class="q-meta"><span class="q-tag">Genótipo x Fenótipo</span><span class="q-hab">EF09CI10</span><span class="diff diff-easy">Fácil</span></div></div><p class="q-text">Pais cabelo liso com filhos crespos (recessivo cc). O que é correto?</p><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/cBOwxFiJxYWCAeDV.jpg" class="q-img"><ul class="options" id="opts7"><li><button class="opt-btn" data-q="7" data-letter="A"><span class="opt-letter">A)</span> Genótipo = fenótipo</button></li><li><button class="opt-btn" data-q="7" data-letter="B"><span class="opt-letter">B)</span> Pais têm fenótipo liso, genótipo heterozigoto (Cc)</button></li><li><button class="opt-btn" data-q="7" data-letter="C"><span class="opt-letter">C)</span> Pais homozigotos CC</button></li><li><button class="opt-btn" data-q="7" data-letter="D"><span class="opt-letter">D)</span> Filhos com fenótipo idêntico aos pais</button></li></ul><div class="feedback" id="fb7"></div></div>
 
+  <!-- QUESTÃO 8 -->
   <div class="q-card" id="q8"><div class="q-header"><div class="q-number">8</div><div class="q-meta"><span class="q-tag">OGM - Soja transgênica</span><span class="q-hab">EF09CI12</span><span class="diff diff-easy">Fácil</span></div></div><p class="q-text">Soja resistente a herbicida é exemplo de OGM em qual área?</p><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/VwLYxRKrbrgcGQKc.gif" class="q-img"><ul class="options" id="opts8"><li><button class="opt-btn" data-q="8" data-letter="A"><span class="opt-letter">A)</span> Medicina</button></li><li><button class="opt-btn" data-q="8" data-letter="B"><span class="opt-letter">B)</span> Agricultura</button></li><li><button class="opt-btn" data-q="8" data-letter="C"><span class="opt-letter">C)</span> Indústria farmacêutica</button></li><li><button class="opt-btn" data-q="8" data-letter="D"><span class="opt-letter">D)</span> Bioprospecção</button></li></ul><div class="feedback" id="fb8"></div></div>
 
+  <!-- QUESTÃO 9 -->
   <div class="q-card" id="q9"><div class="q-header"><div class="q-number">9</div><div class="q-meta"><span class="q-tag">Radiações ionizantes</span><span class="q-hab">EF09CI11</span><span class="diff diff-med">Média</span></div></div><p class="q-text">Principal efeito no DNA?</p><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/prglEMIciiXPaWVF.jpg" class="q-img"><ul class="options" id="opts9"><li><button class="opt-btn" data-q="9" data-letter="A"><span class="opt-letter">A)</span> Aceleram replicação</button></li><li><button class="opt-btn" data-q="9" data-letter="B"><span class="opt-letter">B)</span> Compactam DNA</button></li><li><button class="opt-btn" data-q="9" data-letter="C"><span class="opt-letter">C)</span> Causam quebras, mutações e câncer</button></li><li><button class="opt-btn" data-q="9" data-letter="D"><span class="opt-letter">D)</span> Fortalecem ligações</button></li></ul><div class="feedback" id="fb9"></div></div>
 
+  <!-- QUESTÃO 10 -->
   <div class="q-card" id="q10"><div class="q-header"><div class="q-number">10</div><div class="q-meta"><span class="q-tag">Célula vegetal</span><span class="q-hab">EF09CI06</span><span class="diff diff-med">Média</span></div></div><p class="q-text">Estruturas exclusivas das células vegetais:</p><img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/ISbHXUcrcdbXScPj.jpg" class="q-img"><ul class="options" id="opts10"><li><button class="opt-btn" data-q="10" data-letter="A"><span class="opt-letter">A)</span> Núcleo, ribossomos</button></li><li><button class="opt-btn" data-q="10" data-letter="B"><span class="opt-letter">B)</span> Parede celular, cloroplastos, vacúolo central</button></li><li><button class="opt-btn" data-q="10" data-letter="C"><span class="opt-letter">C)</span> Membrana, citoplasma</button></li><li><button class="opt-btn" data-q="10" data-letter="D"><span class="opt-letter">D)</span> Lisossomos, centríolos</button></li></ul><div class="feedback" id="fb10"></div></div>
 
   <div class="action-buttons">
@@ -497,7 +150,11 @@
 
 <div id="send-status" style="display:none;"></div>
 <div id="hab-panel"><h4>📚 Habilidades a reforçar:</h4><ul id="hab-list"></ul></div>
-<div id="result-panel"><div class="score-circle"><span class="pct" id="score-pct">—</span><span class="frac" id="score-frac">—</span></div><h3 id="result-msg">—</h3><p id="result-sub">—</p><button id="btn-retry" onclick="location.reload()">↻ REFAZER ATIVIDADE</button></div>
+<div id="result-panel">
+  <div class="score-circle"><span class="pct" id="score-pct">—</span><span class="frac" id="score-frac">—</span></div>
+  <h3 id="result-msg">—</h3><p id="result-sub">—</p>
+  <button id="btn-retry" onclick="location.reload()">↻ REFAZER ATIVIDADE</button>
+</div>
 
 <script>
   // ==================== DADOS COMPLETOS ====================
@@ -510,25 +167,116 @@
     ]
   };
 
-  const ANSWERS = {1:'B',2:'B',3:'B',4:'A',5:'B',6:'C',7:'B',8:'B',9:'C',10:'B'};
-  const FEEDBACKS = {1:{B:"✓ Ordem correta da mitose!",wrong:"✗ Ordem: Prófase → Metáfase → Anáfase → Telófase → Citocinese."},2:{B:"✓ Mitose 2 células diploides; Meiose 4 haploides.",wrong:"✗ Mitose origina 2 células; meiose reduz pela metade."},3:{B:"✓ Redução cromossômica nos gametas.",wrong:"✗ Função principal: reduzir número de cromossomos."},4:{A:"✓ T-A-C-G-T-A-C-G.",wrong:"✗ Pareamento A-T e G-C."},5:{B:"✓ 1:2:1 vermelho:rosa:branco.",wrong:"✗ Proporção clássica 1:2:1."},6:{C:"✓ 50% aa (albino).",wrong:"✗ Probabilidade 50%."},7:{B:"✓ Heterozigotos Cc.",wrong:"✗ Pais Cc."},8:{B:"✓ Agricultura.",wrong:"✗ Aplicação agrícola."},9:{C:"✓ Quebras e mutações.",wrong:"✗ Radiação danifica DNA."},10:{B:"✓ Parede celular, cloroplastos.",wrong:"✗ Estruturas vegetais exclusivas."}};
-  
+  const ANSWERS  = {1:'B',2:'B',3:'B',4:'A',5:'B',6:'C',7:'B',8:'B',9:'C',10:'B'};
+  const FEEDBACKS = {
+    1:{B:"✓ Ordem correta da mitose!",wrong:"✗ Ordem: Prófase → Metáfase → Anáfase → Telófase → Citocinese."},
+    2:{B:"✓ Mitose 2 células diploides; Meiose 4 haploides.",wrong:"✗ Mitose origina 2 células; meiose reduz pela metade."},
+    3:{B:"✓ Redução cromossômica nos gametas.",wrong:"✗ Função principal: reduzir número de cromossomos."},
+    4:{A:"✓ T-A-C-G-T-A-C-G.",wrong:"✗ Pareamento A-T e G-C."},
+    5:{B:"✓ 1:2:1 vermelho:rosa:branco.",wrong:"✗ Proporção clássica 1:2:1."},
+    6:{C:"✓ 50% aa (albino).",wrong:"✗ Probabilidade 50%."},
+    7:{B:"✓ Heterozigotos Cc.",wrong:"✗ Pais Cc."},
+    8:{B:"✓ Agricultura.",wrong:"✗ Aplicação agrícola."},
+    9:{C:"✓ Quebras e mutações.",wrong:"✗ Radiação danifica DNA."},
+    10:{B:"✓ Parede celular, cloroplastos.",wrong:"✗ Estruturas vegetais exclusivas."}
+  };
+
+  // ==================== ENDPOINT APPSCRIPT ====================
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyERmYA0s2pKTrz47WrXoP52JVcfZL0pnJwyTwBdC_rpfzi5e3xx24pXfZTSUnAEuZB/exec';
+
+  // Codifica string com acentos em base64 sem quebrar (UTF-8 safe)
+  function toBase64UTF8(str) {
+    const bytes = new TextEncoder().encode(str);
+    let bin = '';
+    bytes.forEach(b => bin += String.fromCharCode(b));
+    return btoa(bin);
+  }
+
+  // Envia via JSONP (GET sem CORS)
+  function enviarAppScript(payload, onSuccess, onError) {
+    const cbName = 'cb_' + Date.now();
+    const encoded = encodeURIComponent(toBase64UTF8(JSON.stringify(payload)));
+    const url = `${SCRIPT_URL}?callback=${cbName}&data=${encoded}`;
+
+    const script = document.createElement('script');
+    script.src = url;
+
+    const timeout = setTimeout(() => {
+      cleanup();
+      onError('Timeout: sem resposta do servidor.');
+    }, 15000);
+
+    function cleanup() {
+      clearTimeout(timeout);
+      if (window[cbName]) delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+
+    window[cbName] = function(resp) {
+      cleanup();
+      if (resp && resp.result === 'success') {
+        onSuccess(resp);
+      } else {
+        onError(resp ? resp.message : 'Resposta inválida do servidor.');
+      }
+    };
+
+    script.onerror = function() {
+      cleanup();
+      onError('Erro de rede ao conectar ao servidor.');
+    };
+
+    document.head.appendChild(script);
+  }
+
+  // ==================== LÓGICA DA ATIVIDADE ====================
   let chosen = {}, submitted = false, switchCount = 0;
-  document.addEventListener('visibilitychange',()=>{ if(document.hidden && !submitted) { switchCount++; let w=document.getElementById('tab-warning'); w.classList.add('visible'); document.getElementById('tab-warning-text').innerHTML=`⚠️ Você trocou de aba (${switchCount}x).`; } });
 
-  function updateStudentList(){ let t=document.getElementById('sel-turma').value, sel=document.getElementById('sel-aluno'); sel.innerHTML='<option value="">Selecione o aluno…</option>'; if(!t){sel.disabled=true;return;} sel.disabled=false; (STUDENTS[t]||[]).forEach(s=>{let opt=document.createElement('option');opt.value=s[0]+' – '+s[1];opt.textContent=s[0]+' – '+s[1];sel.appendChild(opt);}); }
-  function fillStudentInfo(){ let t=document.getElementById('sel-turma').value, val=document.getElementById('sel-aluno').value; if(!t||!val) return; let num=parseInt(val.split(' – ')[0]), list=STUDENTS[t]||[], found=null; for(let s of list) if(s[0]===num) found=s; if(found){ document.getElementById('inp-chamada').value=found[0]; document.getElementById('inp-ra').value=found[2]+'-'+found[3]; document.getElementById('inp-email').value=found[4]; } }
-  document.getElementById('sel-turma').addEventListener('change',updateStudentList);
-  document.getElementById('sel-aluno').addEventListener('change',fillStudentInfo);
-  document.getElementById('inp-date').valueAsDate=new Date();
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && !submitted) {
+      switchCount++;
+      let w = document.getElementById('tab-warning');
+      w.classList.add('visible');
+      document.getElementById('tab-warning-text').innerHTML = `⚠️ Você trocou de aba (${switchCount}x).`;
+    }
+  });
 
-  // funções alternância AZUL <-> VERDE (a cada clique, alterna entre as duas cores)
-  function applyColorToButton(btn, isSelected){
-    if(isSelected){
+  function updateStudentList() {
+    let t = document.getElementById('sel-turma').value;
+    let sel = document.getElementById('sel-aluno');
+    sel.innerHTML = '<option value="">Selecione o aluno…</option>';
+    if (!t) { sel.disabled = true; return; }
+    sel.disabled = false;
+    (STUDENTS[t] || []).forEach(s => {
+      let opt = document.createElement('option');
+      opt.value = s[0] + ' – ' + s[1];
+      opt.textContent = s[0] + ' – ' + s[1];
+      sel.appendChild(opt);
+    });
+  }
+
+  function fillStudentInfo() {
+    let t = document.getElementById('sel-turma').value;
+    let val = document.getElementById('sel-aluno').value;
+    if (!t || !val) return;
+    let num = parseInt(val.split(' – ')[0]);
+    let found = (STUDENTS[t] || []).find(s => s[0] === num);
+    if (found) {
+      document.getElementById('inp-chamada').value = found[0];
+      document.getElementById('inp-ra').value = found[2] + '-' + found[3];
+      document.getElementById('inp-email').value = found[4];
+    }
+  }
+
+  document.getElementById('sel-turma').addEventListener('change', updateStudentList);
+  document.getElementById('sel-aluno').addEventListener('change', fillStudentInfo);
+  document.getElementById('inp-date').valueAsDate = new Date();
+
+  function applyColorToButton(btn, isSelected) {
+    if (isSelected) {
       btn.classList.add('selected-student');
-      // alternar entre azul/verde: usamos flag "greenVariant" guardada no dataset para cada botão
-      if(!btn.dataset.greenState) btn.dataset.greenState = 'false';
-      if(btn.dataset.greenState === 'false'){
+      if (!btn.dataset.greenState) btn.dataset.greenState = 'false';
+      if (btn.dataset.greenState === 'false') {
         btn.classList.remove('green-variant');
         btn.dataset.greenState = 'true';
         btn.classList.add('green-variant');
@@ -542,44 +290,149 @@
     }
   }
 
-  function handleChoice(q, letter, btn){
-    if(submitted) return;
+  function handleChoice(q, letter, btn) {
+    if (submitted) return;
     chosen[q] = letter;
-    const allBtns = document.querySelectorAll(`#opts${q} .opt-btn`);
-    allBtns.forEach(b=> applyColorToButton(b, false));
+    document.querySelectorAll(`#opts${q} .opt-btn`).forEach(b => applyColorToButton(b, false));
     applyColorToButton(btn, true);
-    btn.classList.add('pressed'); setTimeout(()=>btn.classList.remove('pressed'), 130);
-    document.getElementById('q'+q).classList.add('answered');
+    btn.classList.add('pressed');
+    setTimeout(() => btn.classList.remove('pressed'), 130);
+    document.getElementById('q' + q).classList.add('answered');
     updateProgress();
   }
-  function updateProgress(){ let n=Object.keys(chosen).length; document.getElementById('prog-fill').style.width=(n*10)+'%'; document.getElementById('prog-label').innerText=n+' / 10 respondidas'; document.getElementById('btn-submit-action').disabled=false; }
-  for(let i=1;i<=10;i++) document.querySelectorAll(`#opts${i} .opt-btn`).forEach(btn=>{ btn.addEventListener('click',(e)=>{ e.preventDefault(); let q=parseInt(btn.dataset.q), letter=btn.dataset.letter; handleChoice(q,letter,btn); }); });
-  
-  function limparEscolhas(){ if(submitted) return; chosen={}; for(let i=1;i<=10;i++){ document.querySelectorAll(`#opts${i} .opt-btn`).forEach(b=> applyColorToButton(b, false)); document.getElementById('q'+i).classList.remove('answered'); } updateProgress(); }
-  document.getElementById('btn-clear-action').addEventListener('click',limparEscolhas);
-  
-  function enviar(){
-    if(submitted) return;
-    let turma=document.getElementById('sel-turma').value, aluno=document.getElementById('sel-aluno').value;
-    if(!turma||!aluno){ alert('Preencha turma e nome!'); return; }
-    if(Object.keys(chosen).length<10){ alert(`Responda todas as questões (faltam ${10-Object.keys(chosen).length})`); return; }
-    submitted=true;
-    let score=0, naoAtingidas=[];
-    for(let i=1;i<=10;i++){
-      let user=chosen[i], correct=ANSWERS[i];
-      let btns=document.querySelectorAll(`#opts${i} .opt-btn`);
-      btns.forEach(b=>{ b.disabled=true; let l=b.dataset.letter; if(l===correct) b.classList.add('alternate-correct'); else if(l===user && user!==correct) b.classList.add('wrong'); });
-      let fb=document.getElementById('fb'+i); fb.classList.add('show');
-      if(user===correct){ score++; fb.classList.add('ok'); fb.innerHTML=FEEDBACKS[i][correct]; }
-      else{ fb.classList.add('err'); fb.innerHTML=FEEDBACKS[i].wrong; let habCod=document.querySelector(`#q${i} .q-hab`)?.innerText||'EF09CI'; let habTema=document.querySelector(`#q${i} .q-tag`)?.innerText||''; naoAtingidas.push({cod:habCod,tema:habTema}); }
-    }
-    let pct=Math.round(score/10*100); document.getElementById('result-panel').style.display='block'; document.getElementById('score-pct').innerText=pct+'%'; document.getElementById('score-frac').innerText=score+'/10';
-    document.getElementById('result-msg').innerText=pct>=70?'Parabéns! 🎉':pct>=50?'Bom desempenho':'Estude mais'; document.getElementById('result-sub').innerText=`Você acertou ${score} de 10.`;
-    if(naoAtingidas.length){ let ul=document.getElementById('hab-list'); ul.innerHTML=naoAtingidas.map(h=>`<li><strong>${h.cod}</strong> — ${h.tema}</li>`).join(''); document.getElementById('hab-panel').classList.add('visible'); }
-    document.getElementById('btn-submit-action').disabled=true; document.getElementById('btn-clear-action').disabled=true;
-    let statusDiv=document.getElementById('send-status'); statusDiv.style.display='block'; statusDiv.className='sending'; statusDiv.innerHTML='✅ Simulação: respostas registradas com sucesso!'; setTimeout(()=>statusDiv.className='success',800);
+
+  function updateProgress() {
+    let n = Object.keys(chosen).length;
+    document.getElementById('prog-fill').style.width = (n * 10) + '%';
+    document.getElementById('prog-label').innerText = n + ' / 10 respondidas';
+    document.getElementById('btn-submit-action').disabled = false;
   }
-  document.getElementById('btn-submit-action').addEventListener('click',enviar);
+
+  for (let i = 1; i <= 10; i++) {
+    document.querySelectorAll(`#opts${i} .opt-btn`).forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleChoice(parseInt(btn.dataset.q), btn.dataset.letter, btn);
+      });
+    });
+  }
+
+  function limparEscolhas() {
+    if (submitted) return;
+    chosen = {};
+    for (let i = 1; i <= 10; i++) {
+      document.querySelectorAll(`#opts${i} .opt-btn`).forEach(b => applyColorToButton(b, false));
+      document.getElementById('q' + i).classList.remove('answered');
+    }
+    updateProgress();
+  }
+  document.getElementById('btn-clear-action').addEventListener('click', limparEscolhas);
+
+  function enviar() {
+    if (submitted) return;
+
+    let turma  = document.getElementById('sel-turma').value;
+    let aluno  = document.getElementById('sel-aluno').value;
+    let data   = document.getElementById('inp-date').value;
+    let ra     = document.getElementById('inp-ra').value;
+    let email  = document.getElementById('inp-email').value;
+    let num    = document.getElementById('inp-chamada').value;
+
+    if (!turma || !aluno) { alert('Preencha turma e nome!'); return; }
+    if (Object.keys(chosen).length < 10) {
+      alert(`Responda todas as questões (faltam ${10 - Object.keys(chosen).length})`);
+      return;
+    }
+
+    submitted = true;
+
+    // ── Calcula pontuação e exibe feedbacks ──
+    let score = 0, naoAtingidas = [];
+    for (let i = 1; i <= 10; i++) {
+      let user    = chosen[i];
+      let correct = ANSWERS[i];
+      document.querySelectorAll(`#opts${i} .opt-btn`).forEach(b => {
+        b.disabled = true;
+        let l = b.dataset.letter;
+        if (l === correct) b.classList.add('alternate-correct');
+        else if (l === user && user !== correct) b.classList.add('wrong');
+      });
+      let fb = document.getElementById('fb' + i);
+      fb.classList.add('show');
+      if (user === correct) {
+        score++;
+        fb.classList.add('ok');
+        fb.innerHTML = FEEDBACKS[i][correct];
+      } else {
+        fb.classList.add('err');
+        fb.innerHTML = FEEDBACKS[i].wrong;
+        let habCod  = document.querySelector(`#q${i} .q-hab`)?.innerText  || 'EF09CI';
+        let habTema = document.querySelector(`#q${i} .q-tag`)?.innerText || '';
+        naoAtingidas.push({ cod: habCod, tema: habTema });
+      }
+    }
+
+    // ── Painel de resultado ──
+    let pct = Math.round(score / 10 * 100);
+    document.getElementById('result-panel').style.display = 'block';
+    document.getElementById('score-pct').innerText  = pct + '%';
+    document.getElementById('score-frac').innerText = score + '/10';
+    document.getElementById('result-msg').innerText = pct >= 70 ? 'Parabéns! 🎉' : pct >= 50 ? 'Bom desempenho' : 'Estude mais';
+    document.getElementById('result-sub').innerText = `Você acertou ${score} de 10.`;
+
+    if (naoAtingidas.length) {
+      let ul = document.getElementById('hab-list');
+      ul.innerHTML = naoAtingidas.map(h => `<li><strong>${h.cod}</strong> — ${h.tema}</li>`).join('');
+      document.getElementById('hab-panel').classList.add('visible');
+    }
+
+    document.getElementById('btn-submit-action').disabled = true;
+    document.getElementById('btn-clear-action').disabled  = true;
+
+    // ── Envia ao AppScript ──
+    let statusDiv = document.getElementById('send-status');
+    statusDiv.style.display = 'block';
+    statusDiv.style.background = '#fff9e0';
+    statusDiv.style.color = '#7a5500';
+    statusDiv.innerHTML = '⏳ Enviando respostas ao servidor…';
+
+    // Monta payload no formato esperado pelo AppScript
+    // Envia cada resposta como campo "q1".."q10", mais metadados
+    let respostas = {};
+    for (let i = 1; i <= 10; i++) respostas['q' + i] = chosen[i] || '';
+
+    let payload = {
+      aba:       '9ano' + turma,          // ex: "9anoA" ou "9anoB"
+      turma:     '9º Ano ' + turma,
+      chamada:   num,
+      nome:      aluno.split(' – ').slice(1).join(' – '),
+      ra:        ra,
+      email:     email,
+      data:      data,
+      atividade: 'Revisão Genética/DNA',
+      trocas_aba: switchCount,
+      nota:      score,
+      total:     10,
+      ...respostas
+    };
+
+    enviarAppScript(
+      payload,
+      function(resp) {
+        statusDiv.style.background = '#d4edda';
+        statusDiv.style.color = '#145c2e';
+        statusDiv.innerHTML = '✅ Respostas registradas com sucesso!';
+      },
+      function(errMsg) {
+        statusDiv.style.background = '#ffe7e7';
+        statusDiv.style.color = '#a12222';
+        statusDiv.innerHTML = '⚠️ Erro ao enviar: ' + errMsg +
+          '<br><small>Suas respostas foram computadas localmente. Fale com o professor.</small>';
+      }
+    );
+  }
+
+  document.getElementById('btn-submit-action').addEventListener('click', enviar);
   updateProgress();
 </script>
 </body>
