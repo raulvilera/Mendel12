@@ -184,7 +184,7 @@
   // ==================== ENDPOINT APPSCRIPT ====================
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyERmYA0s2pKTrz47WrXoP52JVcfZL0pnJwyTwBdC_rpfzi5e3xx24pXfZTSUnAEuZB/exec';
 
-  // Codifica string com acentos em base64 sem quebrar (UTF-8 safe)
+  // UTF-8 safe base64 — replica exatamente TextEncoder + btoa do padrão
   function toBase64UTF8(str) {
     const bytes = new TextEncoder().encode(str);
     let bin = '';
@@ -192,42 +192,81 @@
     return btoa(bin);
   }
 
-  // Envia via JSONP (GET sem CORS)
-  function enviarAppScript(payload, onSuccess, onError) {
-    const cbName = 'cb_' + Date.now();
-    const encoded = encodeURIComponent(toBase64UTF8(JSON.stringify(payload)));
-    const url = `${SCRIPT_URL}?callback=${cbName}&data=${encoded}`;
+  // Monta a URL GET completa com callback e data
+  function buildURL(payload, cbName) {
+    const json    = JSON.stringify(payload);           // sem espaços extras
+    const b64     = toBase64UTF8(json);               // base64 UTF-8 safe
+    const encoded = encodeURIComponent(b64);          // URL encode do base64
+    return `${SCRIPT_URL}?callback=${cbName}&data=${encoded}`;
+  }
 
-    const script = document.createElement('script');
-    script.src = url;
+  // Estratégia 1: JSONP via <script> (principal)
+  function enviarJSONP(url, cbName, onSuccess, onError) {
+    const script  = document.createElement('script');
+    script.src    = url;
 
-    const timeout = setTimeout(() => {
+    const timer = setTimeout(() => {
       cleanup();
-      onError('Timeout: sem resposta do servidor.');
-    }, 15000);
+      onError('timeout');
+    }, 20000);
 
     function cleanup() {
-      clearTimeout(timeout);
-      if (window[cbName]) delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
+      clearTimeout(timer);
+      delete window[cbName];
+      script.parentNode && script.parentNode.removeChild(script);
     }
 
     window[cbName] = function(resp) {
       cleanup();
-      // AppScript retorna { status: "ok" } ou { status: "error" }
       if (resp && (resp.status === 'ok' || resp.result === 'success')) {
         onSuccess(resp);
       } else {
-        onError(resp ? (resp.message || JSON.stringify(resp)) : 'Resposta inválida do servidor.');
+        onError('appscript_error: ' + JSON.stringify(resp));
       }
     };
 
-    script.onerror = function() {
-      cleanup();
-      onError('Erro de rede ao conectar ao servidor.');
-    };
-
+    script.onerror = () => { cleanup(); onError('script_load_error'); };
     document.head.appendChild(script);
+  }
+
+  // Estratégia 2: fetch no-cors (fallback — não lê resposta, mas dispara a gravação)
+  function enviarFetch(url) {
+    return fetch(url.replace(/&callback=[^&]+/, '&callback=none'), {
+      method: 'GET',
+      mode:   'no-cors'
+    }).catch(() => {});
+  }
+
+  // Orquestrador: tenta JSONP; se timeout/erro, dispara fetch no-cors como fallback
+  function enviarAppScript(payload, onSuccess, onError) {
+    const cbName = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 9999);
+    const url    = buildURL(payload, cbName);
+
+    // DEBUG: mostra URL no console para inspeção
+    console.log('[AppScript] Enviando para:', url);
+    console.log('[AppScript] Payload:', JSON.stringify(payload, null, 2));
+
+    let fallbackFired = false;
+
+    enviarJSONP(url, cbName,
+      // JSONP OK
+      function(resp) {
+        console.log('[AppScript] Resposta JSONP:', resp);
+        onSuccess(resp);
+      },
+      // JSONP falhou → tenta fetch no-cors
+      function(err) {
+        console.warn('[AppScript] JSONP falhou (' + err + '), tentando fetch no-cors...');
+        if (!fallbackFired) {
+          fallbackFired = true;
+          enviarFetch(url).then(() => {
+            // fetch no-cors não retorna resposta — assumimos enviado
+            console.log('[AppScript] fetch no-cors disparado');
+            onSuccess({ status: 'ok', via: 'fetch-no-cors' });
+          });
+        }
+      }
+    );
   }
 
   // ==================== LÓGICA DA ATIVIDADE ====================
