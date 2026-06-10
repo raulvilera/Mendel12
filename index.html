@@ -214,10 +214,11 @@
 
     window[cbName] = function(resp) {
       cleanup();
-      if (resp && resp.result === 'success') {
+      // AppScript retorna { status: "ok" } ou { status: "error" }
+      if (resp && (resp.status === 'ok' || resp.result === 'success')) {
         onSuccess(resp);
       } else {
-        onError(resp ? resp.message : 'Resposta inválida do servidor.');
+        onError(resp ? (resp.message || JSON.stringify(resp)) : 'Resposta inválida do servidor.');
       }
     };
 
@@ -396,23 +397,23 @@
     statusDiv.style.color = '#7a5500';
     statusDiv.innerHTML = '⏳ Enviando respostas ao servidor…';
 
-    // Monta payload no formato esperado pelo AppScript
-    // Envia cada resposta como campo "q1".."q10", mais metadados
+    // Monta payload com os nomes de campo EXATOS esperados pelo AppScript WMS
     let respostas = {};
     for (let i = 1; i <= 10; i++) respostas['q' + i] = chosen[i] || '';
 
+    // Nomes canônicos das abas conforme wms9_normalizeSheetName()
+    const sheetMap = { A: '9oA respostas WMS', B: '9oB respostas WMS' };
+    const nomeAluno = aluno.split(' – ').slice(1).join(' – ');
+
     let payload = {
-      aba:       '9ano' + turma,          // ex: "9anoA" ou "9anoB"
-      turma:     '9º Ano ' + turma,
-      chamada:   num,
-      nome:      aluno.split(' – ').slice(1).join(' – '),
-      ra:        ra,
-      email:     email,
-      data:      data,
-      atividade: 'Revisão Genética/DNA',
-      trocas_aba: switchCount,
-      nota:      score,
-      total:     10,
+      school:        'WMS',
+      sheetName:     sheetMap[turma],
+      studentName:   nomeAluno,
+      studentNumber: num,
+      studentGrade:  '9º Ano ' + turma,
+      studentEmail:  email,
+      date:          data,
+      switchCount:   switchCount,
       ...respostas
     };
 
