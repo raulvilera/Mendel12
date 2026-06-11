@@ -84,6 +84,24 @@
   .score-circle { width: 120px; height: 120px; border-radius: 100%; margin: 0 auto 20px; display: flex; flex-direction: column; justify-content: center; background: #d9ebff; box-shadow: inset 0 1px 5px #0001, 0 6px 12px rgba(0,0,0,0.1); }
   .q-img { max-width: 100%; border-radius: 24px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
   #btn-retry { background: #3173a5; border: none; padding: 12px 28px; border-radius: 60px; font-weight: bold; color: white; box-shadow: 0 5px 0 #1c496b; cursor: pointer; }
+
+  /* ── Tela de bloqueio ── */
+  #bloqueio-panel {
+    display: none;
+    max-width: 560px;
+    margin: 60px auto 0;
+    padding: 48px 36px;
+    background: rgba(255,255,255,0.97);
+    border-radius: 32px;
+    border: 2px solid #f9a825;
+    text-align: center;
+    box-shadow: 0 16px 28px -10px rgba(0,0,0,0.2);
+  }
+  #bloqueio-panel .bl-icon { font-size: 3.5rem; margin-bottom: 16px; }
+  #bloqueio-panel h2 { color: #7a5500; font-size: 1.3rem; margin-bottom: 14px; }
+  #bloqueio-panel p { color: #5a4000; font-size: 0.95rem; line-height: 1.7; margin-bottom: 10px; }
+  #bloqueio-panel .bl-hint { color: #999; font-size: 0.8rem; margin-top: 18px; }
+
   @media (max-width: 640px) { .q-card { padding: 18px; } .opt-btn { padding: 10px 14px; } }
 </style>
 </head>
@@ -94,7 +112,15 @@
   <div class="subtitle">Ciências da Natureza · Prova Paulista · 9º ano EF · Revisão Genética/DNA</div>
 </header>
 
-<div class="main-wrap">
+<!-- ── Tela de bloqueio (oculta até ser ativada) ── -->
+<div id="bloqueio-panel">
+  <div class="bl-icon">🔒</div>
+  <h2>Atividade já enviada</h2>
+  <p id="bl-msg">Suas respostas já foram registradas.</p>
+  <p class="bl-hint">Em caso de erro, fale com o professor.</p>
+</div>
+
+<div class="main-wrap" id="main-wrap">
   <div class="id-card">
     <h2>📖 IDENTIFICAÇÃO DO ALUNO</h2>
     <div class="id-row">
@@ -157,17 +183,92 @@
 </div>
 
 <script>
-  // ==================== DADOS COMPLETOS ====================
+  // ==================== CONSTANTES ====================
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyERmYA0s2pKTrz47WrXoP52JVcfZL0pnJwyTwBdC_rpfzi5e3xx24pXfZTSUnAEuZB/exec';
+  const LS_PREFIX  = 'quiz_wms9_sent_';
+
+  // ==================== DADOS DOS ALUNOS ====================
   const STUDENTS = {
     A: [
-      [1,"ALICE CARVALHO","114160176","X","0000114160176XSP@al.educacao.sp.gov.br"],[2,"AMANDA PASSOS DE ALMEIDA","115864899","6","00001158648996SP@al.educacao.sp.gov.br"],[4,"ANA CLARA SOUSA DA COSTA","123716230","0","00001237162300SP@al.educacao.sp.gov.br"],[5,"ANA JULIA MENEZES DA SILVA","115079886","5","00001150798865SP@al.educacao.sp.gov.br"],[7,"ARTHUR COHEN BARRETO","116651899","1","00001166518991SP@al.educacao.sp.gov.br"],[8,"ARTHUR DAVI DE SOUZA FERNANDES","115287899","2","00001152878992SP@al.educacao.sp.gov.br"],[10,"EDUARDA ALVES DE SOUZA","115507309","5","00001155073095SP@al.educacao.sp.gov.br"],[11,"EMANUEL ALVES OLIVEIRA","112971413","5","00001129714135SP@al.educacao.sp.gov.br"],[12,"ESTHER CRISTINE SILVA RIBEIRO","113216026","1","00001132160261SP@al.educacao.sp.gov.br"],[13,"EVELLYN ALVES DA SILVA","121483284","2","00001214832842SP@al.educacao.sp.gov.br"],[14,"EVELLYN YASMIN TAVARES SILVA","120570957","5","00001205709575SP@al.educacao.sp.gov.br"],[15,"FELIPE DE SOUZA RODRIGUES","115879478","2","00001158794782SP@al.educacao.sp.gov.br"],[16,"FERNANDA POLACHINI MAYER GOMES MARQUES","113220165","2","00001132201652SP@al.educacao.sp.gov.br"],[17,"GUSTAVO AUGUSTO TOMBOLO REIS","121486964","6","00001214869646SP@al.educacao.sp.gov.br"],[18,"HENRIQUE ROCHA CARVALHAL","125597928","8","00001255979288SP@al.educacao.sp.gov.br"],[19,"HINGRID SARAIVA DOS SANTOS","115343277","8","00001153432778SP@al.educacao.sp.gov.br"],[20,"IGOR MARTINS PEREIRA","115083615","5","00001150836155SP@al.educacao.sp.gov.br"],[21,"ISABELLA DOS SANTOS SALDANHA","115076210","X","0000115076210XSP@al.educacao.sp.gov.br"],[22,"KAUANNY APARECIDA MALAQUIAS LIMA","115077275","X","0000115077275XSP@al.educacao.sp.gov.br"],[23,"KÉTHILY NAYARA DA SILVA","114160080","8","00001141600808SP@al.educacao.sp.gov.br"],[24,"LEONARDO DE AVELAR CARVALHO","115077491","5","00001150774915SP@al.educacao.sp.gov.br"],[25,"LIVIA OLIVEIRA NASCIMENTO","116528242","2","00001165282422SP@al.educacao.sp.gov.br"],[26,"LOHRAN ROMUALDO MENDES DA SILVA","115885441","9","00001158854419SP@al.educacao.sp.gov.br"],[27,"LUANA KAROLINE MARTINS DE OLIVEIRA","114150635","X","0000114150635XSP@al.educacao.sp.gov.br"],[28,"LUIS MIGUEL GONCALVES DA SILVA","123848645","9","00001238486459SP@al.educacao.sp.gov.br"],[29,"MANUELLA DE MORAES SOUZA","114143738","7","00001141437387SP@al.educacao.sp.gov.br"],[30,"MARCELA ROBERTO DE OLIVEIRA","115077815","5","00001150778155SP@al.educacao.sp.gov.br"],[34,"MELISSA VICTORIA DE OLIVEIRA CARVALHO","115887628","2","00001158876282SP@al.educacao.sp.gov.br"],[35,"MIGUEL MARTINS DE ASSIS","113221116","5","00001132211165SP@al.educacao.sp.gov.br"],[36,"OMRAN RASEKH","124600717","4","00001246007174SP@al.educacao.sp.gov.br"],[37,"PATRICIA SEGURA","115077465","4","00001150774654SP@al.educacao.sp.gov.br"],[39,"RAUL HENRIQUE CRUS BAPTISTA","114169380","X","0000114169380XSP@al.educacao.sp.gov.br"],[40,"SARAH VITORIA ALVES OLIVEIRA","115077243","8","00001150772438SP@al.educacao.sp.gov.br"],[41,"YURI GABRIEL DE MORAES PONGOLINO","115077239","6","00001150772396SP@al.educacao.sp.gov.br"],[42,"ZAYN AL ABIDIN RASULI","125460635","X","0000125460635XSP@al.educacao.sp.gov.br"],[43,"MATHEUS TURCHETTO","113210966","8","00001132109668SP@al.educacao.sp.gov.br"],[44,"LARISSA RIBEIRO DO NASCIMENTO","114069149","1","00001140691491SP@al.educacao.sp.gov.br"]
+      [1,"ALICE CARVALHO","114160176","X","0000114160176XSP@al.educacao.sp.gov.br"],
+      [2,"AMANDA PASSOS DE ALMEIDA","115864899","6","00001158648996SP@al.educacao.sp.gov.br"],
+      [4,"ANA CLARA SOUSA DA COSTA","123716230","0","00001237162300SP@al.educacao.sp.gov.br"],
+      [5,"ANA JULIA MENEZES DA SILVA","115079886","5","00001150798865SP@al.educacao.sp.gov.br"],
+      [7,"ARTHUR COHEN BARRETO","116651899","1","00001166518991SP@al.educacao.sp.gov.br"],
+      [8,"ARTHUR DAVI DE SOUZA FERNANDES","115287899","2","00001152878992SP@al.educacao.sp.gov.br"],
+      [10,"EDUARDA ALVES DE SOUZA","115507309","5","00001155073095SP@al.educacao.sp.gov.br"],
+      [11,"EMANUEL ALVES OLIVEIRA","112971413","5","00001129714135SP@al.educacao.sp.gov.br"],
+      [12,"ESTHER CRISTINE SILVA RIBEIRO","113216026","1","00001132160261SP@al.educacao.sp.gov.br"],
+      [13,"EVELLYN ALVES DA SILVA","121483284","2","00001214832842SP@al.educacao.sp.gov.br"],
+      [14,"EVELLYN YASMIN TAVARES SILVA","120570957","5","00001205709575SP@al.educacao.sp.gov.br"],
+      [15,"FELIPE DE SOUZA RODRIGUES","115879478","2","00001158794782SP@al.educacao.sp.gov.br"],
+      [16,"FERNANDA POLACHINI MAYER GOMES MARQUES","113220165","2","00001132201652SP@al.educacao.sp.gov.br"],
+      [17,"GUSTAVO AUGUSTO TOMBOLO REIS","121486964","6","00001214869646SP@al.educacao.sp.gov.br"],
+      [18,"HENRIQUE ROCHA CARVALHAL","125597928","8","00001255979288SP@al.educacao.sp.gov.br"],
+      [19,"HINGRID SARAIVA DOS SANTOS","115343277","8","00001153432778SP@al.educacao.sp.gov.br"],
+      [20,"IGOR MARTINS PEREIRA","115083615","5","00001150836155SP@al.educacao.sp.gov.br"],
+      [21,"ISABELLA DOS SANTOS SALDANHA","115076210","X","0000115076210XSP@al.educacao.sp.gov.br"],
+      [22,"KAUANNY APARECIDA MALAQUIAS LIMA","115077275","X","0000115077275XSP@al.educacao.sp.gov.br"],
+      [23,"KÉTHILY NAYARA DA SILVA","114160080","8","00001141600808SP@al.educacao.sp.gov.br"],
+      [24,"LEONARDO DE AVELAR CARVALHO","115077491","5","00001150774915SP@al.educacao.sp.gov.br"],
+      [25,"LIVIA OLIVEIRA NASCIMENTO","116528242","2","00001165282422SP@al.educacao.sp.gov.br"],
+      [26,"LOHRAN ROMUALDO MENDES DA SILVA","115885441","9","00001158854419SP@al.educacao.sp.gov.br"],
+      [27,"LUANA KAROLINE MARTINS DE OLIVEIRA","114150635","X","0000114150635XSP@al.educacao.sp.gov.br"],
+      [28,"LUIS MIGUEL GONCALVES DA SILVA","123848645","9","00001238486459SP@al.educacao.sp.gov.br"],
+      [29,"MANUELLA DE MORAES SOUZA","114143738","7","00001141437387SP@al.educacao.sp.gov.br"],
+      [30,"MARCELA ROBERTO DE OLIVEIRA","115077815","5","00001150778155SP@al.educacao.sp.gov.br"],
+      [34,"MELISSA VICTORIA DE OLIVEIRA CARVALHO","115887628","2","00001158876282SP@al.educacao.sp.gov.br"],
+      [35,"MIGUEL MARTINS DE ASSIS","113221116","5","00001132211165SP@al.educacao.sp.gov.br"],
+      [36,"OMRAN RASEKH","124600717","4","00001246007174SP@al.educacao.sp.gov.br"],
+      [37,"PATRICIA SEGURA","115077465","4","00001150774654SP@al.educacao.sp.gov.br"],
+      [39,"RAUL HENRIQUE CRUS BAPTISTA","114169380","X","0000114169380XSP@al.educacao.sp.gov.br"],
+      [40,"SARAH VITORIA ALVES OLIVEIRA","115077243","8","00001150772438SP@al.educacao.sp.gov.br"],
+      [41,"YURI GABRIEL DE MORAES PONGOLINO","115077239","6","00001150772396SP@al.educacao.sp.gov.br"],
+      [42,"ZAYN AL ABIDIN RASULI","125460635","X","0000125460635XSP@al.educacao.sp.gov.br"],
+      [43,"MATHEUS TURCHETTO","113210966","8","00001132109668SP@al.educacao.sp.gov.br"],
+      [44,"LARISSA RIBEIRO DO NASCIMENTO","114069149","1","00001140691491SP@al.educacao.sp.gov.br"]
     ],
     B: [
-      [1,"ALEJANDRO VIEIRA LIMA","123944559","3","00001239445593SP@al.educacao.sp.gov.br"],[2,"ALLAN BEZERRA DE LIMA","115081749","5","00001150817495SP@al.educacao.sp.gov.br"],[3,"ANA BEATRIZ RODRIGUES OLIVEIRA","115077002","8","00001150770028SP@al.educacao.sp.gov.br"],[4,"ANA CLARA GONCALVES TORRES LOYOLA","114150864","3","00001141508643SP@al.educacao.sp.gov.br"],[5,"ANNA BEATRIZ SANTIAGO DA SILVA","114143887","2","00001141438872SP@al.educacao.sp.gov.br"],[8,"CHRISTOFER FELIPY SANTOS FONSECA","115079892","0","00001150798920SP@al.educacao.sp.gov.br"],[9,"ELIAS SILVA DE LIMA","113219156","7","00001132191567SP@al.educacao.sp.gov.br"],[10,"EVERTON HENRIQUE CARMO RODRIGUES","115079887","7","00001150798877SP@al.educacao.sp.gov.br"],[11,"FABIO HENRIQUE DA SILVA","115083361","0","00001150833610SP@al.educacao.sp.gov.br"],[13,"GABRIELA VITORIA SEVERA LINS","113215338","4","00001132153384SP@al.educacao.sp.gov.br"],[16,"JENNYFER VITORIA BASILIO GOMES","114150446","7","00001141504467SP@al.educacao.sp.gov.br"],[17,"JULIO CESAR ALVES DOS SANTOS","115883182","1","00001158831821SP@al.educacao.sp.gov.br"],[19,"LEONARDO MENOIA","113222398","2","00001132223982SP@al.educacao.sp.gov.br"],[20,"LORENA ALEXANDRE SANTOS DA SILVA","112526618","1","00001125266181SP@al.educacao.sp.gov.br"],[21,"LUAN VENITES BALBINO","116528496","0","00001165284960SP@al.educacao.sp.gov.br"],[23,"MARIA EDUARDA FELIX DA SILVA","116516696","3","00001165166963SP@al.educacao.sp.gov.br"],[24,"MUNIQUE CRISTINA LUCAS","115077229","3","00001150772293SP@al.educacao.sp.gov.br"],[25,"NICOLAS PENTEADO","121492136","X","0000121492136XSP@al.educacao.sp.gov.br"],[26,"NICOLY VITORIA SANTOS DE MENEZES","114151751","6","00001141517516SP@al.educacao.sp.gov.br"],[27,"PAULO CELSO DA COSTA JUNIOR","116519133","7","00001165191337SP@al.educacao.sp.gov.br"],[29,"PEDRO HENRIQUE CARLOS LIMA","113032173","3","00001130321733SP@al.educacao.sp.gov.br"],[30,"PEDRO HENRIQUE MORAIS AMORIM","114164724","2","00001141647242SP@al.educacao.sp.gov.br"],[31,"PEDRO HENRIQUE OLIVEIRA GOMES","114167923","1","00001141679231SP@al.educacao.sp.gov.br"],[32,"PIETRO RODRIGUES MIRANDA","114161023","1","00001141610231SP@al.educacao.sp.gov.br"],[33,"RAPHAELLY APARECIDA MARINHO DE OLIVEIRA","115889727","3","00001158897273SP@al.educacao.sp.gov.br"],[35,"RENAN LEANDRO RODRIGUES VICENTE","115889926","9","00001158899269SP@al.educacao.sp.gov.br"],[36,"RENATO SOUZA SANTOS","115079665","0","00001150796650SP@al.educacao.sp.gov.br"],[37,"RODOLFO RAFAEL GOLZENLEUCHTER MORENO JUNIOR","112587537","9","00001125875379SP@al.educacao.sp.gov.br"],[38,"SOPHIA MENEZES DE ARAUJO","115074913","1","00001150749131SP@al.educacao.sp.gov.br"],[40,"THAYNA SEABRA DE OLIVEIRA DO NASCIMENTO","115079570","0","00001150795700SP@al.educacao.sp.gov.br"],[41,"VITORIA MENEZES BRANDAO","114255506","9","00001142555069SP@al.educacao.sp.gov.br"],[42,"WENDELL RAFAEL DE JESUS LESSA","114163782","0","00001141637820SP@al.educacao.sp.gov.br"],[43,"WILHAN KENJI ANTONIO","121490075","6","00001214900756SP@al.educacao.sp.gov.br"],[44,"ALYSON DANIEL OLIVEIRA HERCULE","114151286","5","00001141512865SP@al.educacao.sp.gov.br"],[46,"CAIO FELIPE NOGUEIRA DOS SANTOS","114799576","X","0000114799576XSP@al.educacao.sp.gov.br"]
+      [1,"ALEJANDRO VIEIRA LIMA","123944559","3","00001239445593SP@al.educacao.sp.gov.br"],
+      [2,"ALLAN BEZERRA DE LIMA","115081749","5","00001150817495SP@al.educacao.sp.gov.br"],
+      [3,"ANA BEATRIZ RODRIGUES OLIVEIRA","115077002","8","00001150770028SP@al.educacao.sp.gov.br"],
+      [4,"ANA CLARA GONCALVES TORRES LOYOLA","114150864","3","00001141508643SP@al.educacao.sp.gov.br"],
+      [5,"ANNA BEATRIZ SANTIAGO DA SILVA","114143887","2","00001141438872SP@al.educacao.sp.gov.br"],
+      [8,"CHRISTOFER FELIPY SANTOS FONSECA","115079892","0","00001150798920SP@al.educacao.sp.gov.br"],
+      [9,"ELIAS SILVA DE LIMA","113219156","7","00001132191567SP@al.educacao.sp.gov.br"],
+      [10,"EVERTON HENRIQUE CARMO RODRIGUES","115079887","7","00001150798877SP@al.educacao.sp.gov.br"],
+      [11,"FABIO HENRIQUE DA SILVA","115083361","0","00001150833610SP@al.educacao.sp.gov.br"],
+      [13,"GABRIELA VITORIA SEVERA LINS","113215338","4","00001132153384SP@al.educacao.sp.gov.br"],
+      [16,"JENNYFER VITORIA BASILIO GOMES","114150446","7","00001141504467SP@al.educacao.sp.gov.br"],
+      [17,"JULIO CESAR ALVES DOS SANTOS","115883182","1","00001158831821SP@al.educacao.sp.gov.br"],
+      [19,"LEONARDO MENOIA","113222398","2","00001132223982SP@al.educacao.sp.gov.br"],
+      [20,"LORENA ALEXANDRE SANTOS DA SILVA","112526618","1","00001125266181SP@al.educacao.sp.gov.br"],
+      [21,"LUAN VENITES BALBINO","116528496","0","00001165284960SP@al.educacao.sp.gov.br"],
+      [23,"MARIA EDUARDA FELIX DA SILVA","116516696","3","00001165166963SP@al.educacao.sp.gov.br"],
+      [24,"MUNIQUE CRISTINA LUCAS","115077229","3","00001150772293SP@al.educacao.sp.gov.br"],
+      [25,"NICOLAS PENTEADO","121492136","X","0000121492136XSP@al.educacao.sp.gov.br"],
+      [26,"NICOLY VITORIA SANTOS DE MENEZES","114151751","6","00001141517516SP@al.educacao.sp.gov.br"],
+      [27,"PAULO CELSO DA COSTA JUNIOR","116519133","7","00001165191337SP@al.educacao.sp.gov.br"],
+      [29,"PEDRO HENRIQUE CARLOS LIMA","113032173","3","00001130321733SP@al.educacao.sp.gov.br"],
+      [30,"PEDRO HENRIQUE MORAIS AMORIM","114164724","2","00001141647242SP@al.educacao.sp.gov.br"],
+      [31,"PEDRO HENRIQUE OLIVEIRA GOMES","114167923","1","00001141679231SP@al.educacao.sp.gov.br"],
+      [32,"PIETRO RODRIGUES MIRANDA","114161023","1","00001141610231SP@al.educacao.sp.gov.br"],
+      [33,"RAPHAELLY APARECIDA MARINHO DE OLIVEIRA","115889727","3","00001158897273SP@al.educacao.sp.gov.br"],
+      [35,"RENAN LEANDRO RODRIGUES VICENTE","115889926","9","00001158899269SP@al.educacao.sp.gov.br"],
+      [36,"RENATO SOUZA SANTOS","115079665","0","00001150796650SP@al.educacao.sp.gov.br"],
+      [37,"RODOLFO RAFAEL GOLZENLEUCHTER MORENO JUNIOR","112587537","9","00001125875379SP@al.educacao.sp.gov.br"],
+      [38,"SOPHIA MENEZES DE ARAUJO","115074913","1","00001150749131SP@al.educacao.sp.gov.br"],
+      [40,"THAYNA SEABRA DE OLIVEIRA DO NASCIMENTO","115079570","0","00001150795700SP@al.educacao.sp.gov.br"],
+      [41,"VITORIA MENEZES BRANDAO","114255506","9","00001142555069SP@al.educacao.sp.gov.br"],
+      [42,"WENDELL RAFAEL DE JESUS LESSA","114163782","0","00001141637820SP@al.educacao.sp.gov.br"],
+      [43,"WILHAN KENJI ANTONIO","121490075","6","00001214900756SP@al.educacao.sp.gov.br"],
+      [44,"ALYSON DANIEL OLIVEIRA HERCULE","114151286","5","00001141512865SP@al.educacao.sp.gov.br"],
+      [46,"CAIO FELIPE NOGUEIRA DOS SANTOS","114799576","X","0000114799576XSP@al.educacao.sp.gov.br"]
     ]
   };
 
-  const ANSWERS  = {1:'B',2:'B',3:'B',4:'A',5:'B',6:'C',7:'B',8:'B',9:'C',10:'B'};
+  const ANSWERS = {1:'B',2:'B',3:'B',4:'A',5:'B',6:'C',7:'B',8:'B',9:'C',10:'B'};
+
   const FEEDBACKS = {
     1:{B:"✓ Ordem correta da mitose!",wrong:"✗ Ordem: Prófase → Metáfase → Anáfase → Telófase → Citocinese."},
     2:{B:"✓ Mitose 2 células diploides; Meiose 4 haploides.",wrong:"✗ Mitose origina 2 células; meiose reduz pela metade."},
@@ -181,9 +282,56 @@
     10:{B:"✓ Parede celular, cloroplastos.",wrong:"✗ Estruturas vegetais exclusivas."}
   };
 
-  // ==================== ENDPOINT APPSCRIPT ====================
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyERmYA0s2pKTrz47WrXoP52JVcfZL0pnJwyTwBdC_rpfzi5e3xx24pXfZTSUnAEuZB/exec';
+  // ==================== ESTADO ====================
+  let chosen = {}, submitted = false, switchCount = 0, currentRA = '';
 
+  // ==================== ANTI-REENVIO (localStorage) ====================
+
+  // Monta a chave a partir do RA (sanitiza caracteres especiais)
+  function lsKey(ra) {
+    return LS_PREFIX + ra.replace(/[^a-zA-Z0-9]/g, '_');
+  }
+
+  // Exibe o painel de bloqueio e oculta o formulário
+  function bloquearUI(registro) {
+    document.getElementById('main-wrap').style.display = 'none';
+    document.getElementById('send-status').style.display = 'none';
+    document.getElementById('hab-panel').style.display = 'none';
+    document.getElementById('result-panel').style.display = 'none';
+
+    const painel = document.getElementById('bloqueio-panel');
+    document.getElementById('bl-msg').innerHTML =
+      '<strong>' + registro.nome + '</strong>, suas respostas já foram '
+      + 'registradas no dia <strong>' + registro.dataEnvio + '</strong>.<br>'
+      + 'Não é possível enviar novamente.';
+    painel.style.display = 'block';
+  }
+
+  // Verifica se o RA já tem envio gravado; retorna true e bloqueia se sim
+  function checkBloqueio(ra) {
+    if (!ra) return false;
+    const raw = localStorage.getItem(lsKey(ra));
+    if (!raw) return false;
+    try {
+      bloquearUI(JSON.parse(raw));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Grava o registro de envio no localStorage
+  function gravarEnvio(ra, nome, turma) {
+    const agora = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+    localStorage.setItem(lsKey(ra), JSON.stringify({
+      nome:      nome,
+      ra:        ra,
+      turma:     turma,
+      dataEnvio: agora
+    }));
+  }
+
+  // ==================== ENDPOINT APPSCRIPT ====================
   // Codificação UTF-8 segura para base64
   function toBase64UTF8(str) {
     const bytes = new TextEncoder().encode(str);
@@ -192,24 +340,8 @@
     return btoa(bin);
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
-  //  ENVIO VIA JSONP PURO
-  //
-  //  Por que JSONP e não fetch?
-  //  O endpoint /exec do Apps Script faz redirect 302 para
-  //  script.googleusercontent.com. O fetch(mode:'no-cors') segue esse
-  //  redirect mas retorna uma resposta "opaque" — o doGet NUNCA é chamado,
-  //  o browser apenas recebe o HTML de redirect sem executar nada no servidor.
-  //
-  //  Com JSONP via <script src="...">, o fluxo é:
-  //    1. Browser requisita /exec?callback=cb_XXX&data=...
-  //    2. Apps Script executa doGet() ← GRAVAÇÃO ACONTECE AQUI
-  //    3. Servidor responde com redirect 302
-  //    4. Browser segue redirect → bloqueado por CORS → dispara script.onerror
-  //
-  //  Portanto: onerror = redirect bloqueado = doGet JÁ executou = SUCESSO.
-  //  Tratamos onerror como confirmação de gravação, não como falha.
-  // ─────────────────────────────────────────────────────────────────────────
+  // Envio via JSONP puro
+  // onerror = redirect 302 bloqueado pelo browser = doGet JÁ executou = SUCESSO
   function enviarAppScript(payload, onSuccess, onError) {
     const cbName = 'cb_' + Date.now() + '_' + Math.floor(Math.random() * 99999);
     const b64    = toBase64UTF8(JSON.stringify(payload));
@@ -217,17 +349,11 @@
                    + '?callback=' + cbName
                    + '&data='     + encodeURIComponent(b64);
 
-    console.log('[AppScript] Enviando JSONP...');
-    console.log('[AppScript] Payload:', JSON.stringify(payload, null, 2));
-
     const script = document.createElement('script');
     script.src   = url;
 
-    // Timeout de segurança: 18s
-    // Se nem onerror nem o callback dispararam, algo incomum aconteceu
     const timer = setTimeout(function () {
       cleanup();
-      console.warn('[AppScript] Timeout 18s — assumindo gravação OK');
       onSuccess({ status: 'ok', via: 'timeout-assumed' });
     }, 18000);
 
@@ -237,10 +363,8 @@
       if (script.parentNode) script.parentNode.removeChild(script);
     }
 
-    // Callback real — só é invocado se não houver redirect (ex: testes locais)
     window[cbName] = function (resp) {
       cleanup();
-      console.log('[AppScript] Callback recebido:', resp);
       if (resp && (resp.status === 'ok' || resp.result === 'success')) {
         onSuccess(resp);
       } else {
@@ -248,37 +372,25 @@
       }
     };
 
-    // onerror = redirect 302 bloqueou o CORS após doGet já ter executado
-    // Este é o caminho NORMAL em produção — tratar como sucesso
+    // Caminho normal em produção: redirect CORS bloqueia, doGet já gravou
     script.onerror = function () {
       cleanup();
-      console.log('[AppScript] onerror (redirect bloqueado pelo browser) — gravação OK');
       onSuccess({ status: 'ok', via: 'jsonp-onerror-redirect' });
     };
 
     document.head.appendChild(script);
   }
 
-  // ==================== LÓGICA DA ATIVIDADE ====================
-  let chosen = {}, submitted = false, switchCount = 0;
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && !submitted) {
-      switchCount++;
-      let w = document.getElementById('tab-warning');
-      w.classList.add('visible');
-      document.getElementById('tab-warning-text').innerHTML = `⚠️ Você trocou de aba (${switchCount}x).`;
-    }
-  });
-
+  // ==================== IDENTIFICAÇÃO ====================
   function updateStudentList() {
-    let t = document.getElementById('sel-turma').value;
-    let sel = document.getElementById('sel-aluno');
+    const t   = document.getElementById('sel-turma').value;
+    const sel = document.getElementById('sel-aluno');
     sel.innerHTML = '<option value="">Selecione o aluno…</option>';
+    currentRA = '';
     if (!t) { sel.disabled = true; return; }
     sel.disabled = false;
     (STUDENTS[t] || []).forEach(s => {
-      let opt = document.createElement('option');
+      const opt = document.createElement('option');
       opt.value = s[0] + ' – ' + s[1];
       opt.textContent = s[0] + ' – ' + s[1];
       sel.appendChild(opt);
@@ -286,22 +398,41 @@
   }
 
   function fillStudentInfo() {
-    let t = document.getElementById('sel-turma').value;
-    let val = document.getElementById('sel-aluno').value;
+    const t   = document.getElementById('sel-turma').value;
+    const val = document.getElementById('sel-aluno').value;
+    currentRA = '';
     if (!t || !val) return;
-    let num = parseInt(val.split(' – ')[0]);
-    let found = (STUDENTS[t] || []).find(s => s[0] === num);
-    if (found) {
-      document.getElementById('inp-chamada').value = found[0];
-      document.getElementById('inp-ra').value = found[2] + '-' + found[3];
-      document.getElementById('inp-email').value = found[4];
-    }
+
+    const num   = parseInt(val.split(' – ')[0]);
+    const found = (STUDENTS[t] || []).find(s => s[0] === num);
+    if (!found) return;
+
+    const raFormatado = found[2] + '-' + found[3];
+    document.getElementById('inp-chamada').value = found[0];
+    document.getElementById('inp-ra').value      = raFormatado;
+    document.getElementById('inp-email').value   = found[4];
+    currentRA = raFormatado;
+
+    // Verifica bloqueio imediatamente ao selecionar o aluno
+    checkBloqueio(currentRA);
   }
 
   document.getElementById('sel-turma').addEventListener('change', updateStudentList);
   document.getElementById('sel-aluno').addEventListener('change', fillStudentInfo);
   document.getElementById('inp-date').valueAsDate = new Date();
 
+  // ==================== TROCA DE ABA ====================
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && !submitted) {
+      switchCount++;
+      const w = document.getElementById('tab-warning');
+      w.classList.add('visible');
+      document.getElementById('tab-warning-text').innerHTML =
+        '⚠️ Você trocou de aba (' + switchCount + 'x).';
+    }
+  });
+
+  // ==================== ESCOLHAS ====================
   function applyColorToButton(btn, isSelected) {
     if (isSelected) {
       btn.classList.add('selected-student');
@@ -323,7 +454,7 @@
   function handleChoice(q, letter, btn) {
     if (submitted) return;
     chosen[q] = letter;
-    document.querySelectorAll(`#opts${q} .opt-btn`).forEach(b => applyColorToButton(b, false));
+    document.querySelectorAll('#opts' + q + ' .opt-btn').forEach(b => applyColorToButton(b, false));
     applyColorToButton(btn, true);
     btn.classList.add('pressed');
     setTimeout(() => btn.classList.remove('pressed'), 130);
@@ -332,15 +463,15 @@
   }
 
   function updateProgress() {
-    let n = Object.keys(chosen).length;
+    const n = Object.keys(chosen).length;
     document.getElementById('prog-fill').style.width = (n * 10) + '%';
-    document.getElementById('prog-label').innerText = n + ' / 10 respondidas';
+    document.getElementById('prog-label').innerText  = n + ' / 10 respondidas';
     document.getElementById('btn-submit-action').disabled = false;
   }
 
   for (let i = 1; i <= 10; i++) {
-    document.querySelectorAll(`#opts${i} .opt-btn`).forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    document.querySelectorAll('#opts' + i + ' .opt-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
         e.preventDefault();
         handleChoice(parseInt(btn.dataset.q), btn.dataset.letter, btn);
       });
@@ -351,43 +482,48 @@
     if (submitted) return;
     chosen = {};
     for (let i = 1; i <= 10; i++) {
-      document.querySelectorAll(`#opts${i} .opt-btn`).forEach(b => applyColorToButton(b, false));
+      document.querySelectorAll('#opts' + i + ' .opt-btn').forEach(b => applyColorToButton(b, false));
       document.getElementById('q' + i).classList.remove('answered');
     }
     updateProgress();
   }
   document.getElementById('btn-clear-action').addEventListener('click', limparEscolhas);
 
+  // ==================== ENVIO ====================
   function enviar() {
     if (submitted) return;
 
-    let turma  = document.getElementById('sel-turma').value;
-    let aluno  = document.getElementById('sel-aluno').value;
-    let data   = document.getElementById('inp-date').value;
-    let ra     = document.getElementById('inp-ra').value;
-    let email  = document.getElementById('inp-email').value;
-    let num    = document.getElementById('inp-chamada').value;
+    const turma = document.getElementById('sel-turma').value;
+    const aluno = document.getElementById('sel-aluno').value;
+    const data  = document.getElementById('inp-date').value;
+    const ra    = document.getElementById('inp-ra').value;
+    const email = document.getElementById('inp-email').value;
+    const num   = document.getElementById('inp-chamada').value;
 
     if (!turma || !aluno) { alert('Preencha turma e nome!'); return; }
     if (Object.keys(chosen).length < 10) {
-      alert(`Responda todas as questões (faltam ${10 - Object.keys(chosen).length})`);
+      alert('Responda todas as questões (faltam ' + (10 - Object.keys(chosen).length) + ')');
       return;
     }
+
+    // Dupla verificação anti-reenvio antes de qualquer ação
+    if (checkBloqueio(ra)) return;
 
     submitted = true;
 
     // ── Calcula pontuação e exibe feedbacks ──
-    let score = 0, naoAtingidas = [];
+    let score = 0;
+    const naoAtingidas = [];
     for (let i = 1; i <= 10; i++) {
-      let user    = chosen[i];
-      let correct = ANSWERS[i];
-      document.querySelectorAll(`#opts${i} .opt-btn`).forEach(b => {
+      const user    = chosen[i];
+      const correct = ANSWERS[i];
+      document.querySelectorAll('#opts' + i + ' .opt-btn').forEach(b => {
         b.disabled = true;
-        let l = b.dataset.letter;
-        if (l === correct) b.classList.add('alternate-correct');
+        const l = b.dataset.letter;
+        if (l === correct)               b.classList.add('alternate-correct');
         else if (l === user && user !== correct) b.classList.add('wrong');
       });
-      let fb = document.getElementById('fb' + i);
+      const fb = document.getElementById('fb' + i);
       fb.classList.add('show');
       if (user === correct) {
         score++;
@@ -396,43 +532,44 @@
       } else {
         fb.classList.add('err');
         fb.innerHTML = FEEDBACKS[i].wrong;
-        let habCod  = document.querySelector(`#q${i} .q-hab`)?.innerText  || 'EF09CI';
-        let habTema = document.querySelector(`#q${i} .q-tag`)?.innerText || '';
+        const habCod  = document.querySelector('#q' + i + ' .q-hab')?.innerText || 'EF09CI';
+        const habTema = document.querySelector('#q' + i + ' .q-tag')?.innerText || '';
         naoAtingidas.push({ cod: habCod, tema: habTema });
       }
     }
 
     // ── Painel de resultado ──
-    let pct = Math.round(score / 10 * 100);
+    const pct = Math.round(score / 10 * 100);
     document.getElementById('result-panel').style.display = 'block';
     document.getElementById('score-pct').innerText  = pct + '%';
     document.getElementById('score-frac').innerText = score + '/10';
-    document.getElementById('result-msg').innerText = pct >= 70 ? 'Parabéns! 🎉' : pct >= 50 ? 'Bom desempenho' : 'Estude mais';
-    document.getElementById('result-sub').innerText = `Você acertou ${score} de 10.`;
+    document.getElementById('result-msg').innerText =
+      pct >= 70 ? 'Parabéns! 🎉' : pct >= 50 ? 'Bom desempenho' : 'Estude mais';
+    document.getElementById('result-sub').innerText = 'Você acertou ' + score + ' de 10.';
 
     if (naoAtingidas.length) {
-      let ul = document.getElementById('hab-list');
-      ul.innerHTML = naoAtingidas.map(h => `<li><strong>${h.cod}</strong> — ${h.tema}</li>`).join('');
+      document.getElementById('hab-list').innerHTML =
+        naoAtingidas.map(h => '<li><strong>' + h.cod + '</strong> — ' + h.tema + '</li>').join('');
       document.getElementById('hab-panel').classList.add('visible');
     }
 
     document.getElementById('btn-submit-action').disabled = true;
     document.getElementById('btn-clear-action').disabled  = true;
 
-    // ── Envia ao AppScript ──
-    let statusDiv = document.getElementById('send-status');
-    statusDiv.style.display = 'block';
+    // ── Status de envio ──
+    const statusDiv = document.getElementById('send-status');
+    statusDiv.style.display    = 'block';
     statusDiv.style.background = '#fff9e0';
-    statusDiv.style.color = '#7a5500';
-    statusDiv.innerHTML = '⏳ Enviando respostas ao servidor…';
+    statusDiv.style.color      = '#7a5500';
+    statusDiv.innerHTML        = '⏳ Enviando respostas ao servidor…';
 
-    let respostas = {};
+    const respostas = {};
     for (let i = 1; i <= 10; i++) respostas['q' + i] = chosen[i] || '';
 
-    const sheetMap = { A: '9oA respostas WMS', B: '9oB respostas WMS' };
+    const sheetMap  = { A: '9oA respostas WMS', B: '9oB respostas WMS' };
     const nomeAluno = aluno.split(' – ').slice(1).join(' – ');
 
-    let payload = {
+    const payload = {
       school:        'WMS',
       sheetName:     sheetMap[turma],
       studentName:   nomeAluno,
@@ -446,16 +583,23 @@
 
     enviarAppScript(
       payload,
-      function(resp) {
+      function (resp) {
+        // ── SUCESSO: grava bloqueio e atualiza status ──
+        gravarEnvio(ra, nomeAluno, '9º Ano ' + turma);
+
         statusDiv.style.background = '#d4edda';
-        statusDiv.style.color = '#145c2e';
-        statusDiv.innerHTML = '✅ Respostas registradas com sucesso!';
+        statusDiv.style.color      = '#145c2e';
+        statusDiv.innerHTML        = '✅ Respostas registradas com sucesso!';
       },
-      function(errMsg) {
+      function (errMsg) {
+        // ── ERRO REAL: não grava bloqueio, permite nova tentativa ──
+        submitted = false;
+        document.getElementById('btn-submit-action').disabled = false;
+
         statusDiv.style.background = '#ffe7e7';
-        statusDiv.style.color = '#a12222';
-        statusDiv.innerHTML = '⚠️ Erro ao enviar: ' + errMsg +
-          '<br><small>Suas respostas foram computadas localmente. Fale com o professor.</small>';
+        statusDiv.style.color      = '#a12222';
+        statusDiv.innerHTML        = '⚠️ Erro ao enviar: ' + errMsg
+          + '<br><small>Suas respostas foram computadas localmente. Fale com o professor.</small>';
       }
     );
   }
