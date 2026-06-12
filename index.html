@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   :root {
     --blue-dark:  #0a4c7a;
     --blue-mid:   #1f6392;
@@ -23,377 +22,77 @@
     --orange-shd: #8e4e1f;
     --text:       #1a2c3e;
   }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(145deg, var(--bg-top) 0%, var(--bg-bot) 100%);
-    min-height: 100vh;
-    padding: 0 0 80px;
-    color: var(--text);
-  }
-
-  /* ── CABEÇALHO ── */
-  .school-header {
-    background: #eef5ff;
-    padding: 1.6rem 2rem;
-    border-bottom: 3px solid var(--blue-light);
-    box-shadow: 0 10px 20px -8px rgba(0,0,0,0.18), inset 0 1px 0 white;
-  }
-  .school-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 800;
-    font-size: 1.55rem;
-    color: var(--blue-dark);
-    text-shadow: 1px 1px 0 white;
-  }
-  .school-header .subtitle {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--blue-mid);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 4px;
-  }
-
+  body { font-family: 'Inter', sans-serif; background: linear-gradient(145deg, var(--bg-top) 0%, var(--bg-bot) 100%); min-height: 100vh; padding: 0 0 80px; color: var(--text); }
+  .school-header { background: #eef5ff; padding: 1.6rem 2rem; border-bottom: 3px solid var(--blue-light); box-shadow: 0 10px 20px -8px rgba(0,0,0,0.18), inset 0 1px 0 white; }
+  .school-header h1 { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.55rem; color: var(--blue-dark); text-shadow: 1px 1px 0 white; }
+  .school-header .subtitle { font-size: 0.78rem; font-weight: 600; color: var(--blue-mid); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
   .main-wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
-
-  /* ── BLOCO DE VÍDEO ── */
-  .video-section {
-    background: var(--card-bg);
-    border-radius: 32px;
-    padding: 28px 32px;
-    margin: 28px 0 20px;
-    border: 1px solid var(--border);
-    box-shadow: 0 16px 28px -10px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.8);
-  }
-
-  .video-section-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-  }
-
-  .video-badge {
-    background: linear-gradient(135deg, #1b5a8c, #3f8bcb);
-    color: white;
-    font-weight: 700;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 6px 16px;
-    border-radius: 40px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    white-space: nowrap;
-  }
-
-  .video-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--blue-dark);
-    line-height: 1.3;
-  }
-
-  .video-instruction {
-    background: #e8f4ff;
-    border-left: 4px solid var(--blue-light);
-    padding: 12px 18px;
-    border-radius: 0 20px 20px 0;
-    font-size: 0.87rem;
-    color: #1a4d70;
-    margin-bottom: 20px;
-    line-height: 1.6;
-  }
+  .video-section { background: var(--card-bg); border-radius: 32px; padding: 28px 32px; margin: 28px 0 20px; border: 1px solid var(--border); box-shadow: 0 16px 28px -10px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.8); }
+  .video-section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+  .video-badge { background: linear-gradient(135deg, #1b5a8c, #3f8bcb); color: white; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.5px; padding: 6px 16px; border-radius: 40px; box-shadow: 0 3px 8px rgba(0,0,0,0.15); white-space: nowrap; }
+  .video-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--blue-dark); line-height: 1.3; }
+  .video-instruction { background: #e8f4ff; border-left: 4px solid var(--blue-light); padding: 12px 18px; border-radius: 0 20px 20px 0; font-size: 0.87rem; color: #1a4d70; margin-bottom: 20px; line-height: 1.6; }
   .video-instruction strong { color: var(--blue-dark); }
-
-  /* Container responsivo do vídeo – aspect-ratio 16:9 */
-  .video-wrapper {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%; /* 16:9 */
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-    background: #000;
-  }
-  .video-wrapper video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background: #000;
-    display: block;
-  }
-
-  /* Chips de temas cobertos no vídeo */
-  .video-topics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 18px;
-  }
-  .topic-chip {
-    background: #deeaff;
-    color: #1a5780;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 5px 14px;
-    border-radius: 40px;
-    letter-spacing: 0.4px;
-  }
-
-  /* ── IDENTIFICAÇÃO ── */
-  .id-card {
-    background: var(--card-bg);
-    border-radius: 32px;
-    padding: 24px 32px;
-    margin: 24px 0;
-    border: 1px solid var(--border);
-    box-shadow: 0 16px 28px -10px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.8);
-  }
-  .id-card h2 {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 700;
-    color: var(--blue-mid);
-    margin-bottom: 20px;
-  }
-  .field label {
-    display: block;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #1f5983;
-    margin-bottom: 6px;
-    letter-spacing: 0.5px;
-  }
-  .field select, .field input {
-    width: 100%;
-    padding: 12px 14px;
-    background: #fff;
-    border: 1px solid #b9d4ff;
-    border-radius: 20px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    color: #0a2f4d;
-    transition: all 0.2s;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05), 0 1px 1px white;
-  }
-  .field select:focus, .field input:focus {
-    border-color: #2f87c7;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(47,135,199,0.2), inset 0 1px 2px white;
-  }
+  .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.18); background: #000; }
+  .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; border-radius: 20px; }
+  .video-topics { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .topic-chip { background: #deeaff; color: #1a5780; font-size: 0.72rem; font-weight: 600; padding: 5px 14px; border-radius: 40px; letter-spacing: 0.4px; }
+  .id-card { background: var(--card-bg); border-radius: 32px; padding: 24px 32px; margin: 24px 0; border: 1px solid var(--border); box-shadow: 0 16px 28px -10px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.8); }
+  .id-card h2 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; color: var(--blue-mid); margin-bottom: 20px; }
+  .field label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #1f5983; margin-bottom: 6px; letter-spacing: 0.5px; }
+  .field select, .field input { width: 100%; padding: 12px 14px; background: #fff; border: 1px solid #b9d4ff; border-radius: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #0a2f4d; transition: all 0.2s; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05), 0 1px 1px white; }
+  .field select:focus, .field input:focus { border-color: #2f87c7; outline: none; box-shadow: 0 0 0 3px rgba(47,135,199,0.2), inset 0 1px 2px white; }
   .field input[readonly] { background: #eef4fc; color: #1a4970; }
   .id-row, .id-row-2 { display: flex; flex-wrap: wrap; gap: 18px; }
   .id-row { margin-bottom: 12px; }
-  .field-turma  { flex: 1 1 140px; }
-  .field-aluno  { flex: 2 1 260px; }
-  .field-date   { flex: 1 1 150px; }
-  .field-chamada{ flex: 0.6 1 90px; }
-  .field-ra     { flex: 1 1 180px; }
-  .field-email  { flex: 2 1 260px; }
-
-  /* ── AVISOS / PROGRESSO ── */
-  #tab-warning {
-    background: #fff2df;
-    border-left: 5px solid #f9a825;
-    padding: 12px 18px;
-    border-radius: 24px;
-    margin: 16px 0;
-    display: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #b45f06;
-  }
+  .field-turma { flex: 1 1 140px; } .field-aluno { flex: 2 1 260px; } .field-date { flex: 1 1 150px; }
+  .field-chamada { flex: 0.6 1 90px; } .field-ra { flex: 1 1 180px; } .field-email { flex: 2 1 260px; }
+  #tab-warning { background: #fff2df; border-left: 5px solid #f9a825; padding: 12px 18px; border-radius: 24px; margin: 16px 0; display: none; font-size: 0.85rem; font-weight: 500; color: #b45f06; }
   #tab-warning.visible { display: flex; align-items: center; gap: 12px; }
-
   .progress-wrap { margin: 20px 0 12px; }
-  .progress-bar  { height: 10px; background: #cdddee; border-radius: 20px; overflow: hidden; box-shadow: inset 0 1px 3px #00000020; }
+  .progress-bar { height: 10px; background: #cdddee; border-radius: 20px; overflow: hidden; box-shadow: inset 0 1px 3px #00000020; }
   .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#1f8a5c,#0f6e48); border-radius: 20px; transition: width 0.3s ease; }
-  .progress-label{ text-align: right; font-size: 0.75rem; margin-top: 8px; color: #1f5480; font-weight: 600; }
-
-  /* ── QUESTÕES ── */
-  .q-card {
-    background: var(--card-bg);
-    border-radius: 32px;
-    padding: 24px 28px;
-    margin-bottom: 28px;
-    border: 1px solid var(--border);
-    box-shadow: 0 12px 24px -12px rgba(0,0,0,0.18), inset 0 1px 0 white;
-  }
+  .progress-label { text-align: right; font-size: 0.75rem; margin-top: 8px; color: #1f5480; font-weight: 600; }
+  .q-card { background: var(--card-bg); border-radius: 32px; padding: 24px 28px; margin-bottom: 28px; border: 1px solid var(--border); box-shadow: 0 12px 24px -12px rgba(0,0,0,0.18), inset 0 1px 0 white; }
   .q-card.answered { border-left: 6px solid #3c8dc5; }
   .q-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
-  .q-number {
-    background: radial-gradient(circle at 30% 30%, #3f8bcb, #1b5a8c);
-    width: 44px; height: 44px;
-    border-radius: 60px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 1.3rem; color: white;
-    box-shadow: inset 0 -1px 0 #ffffff80, 0 6px 10px rgba(0,0,0,0.15);
-    flex-shrink: 0;
-  }
+  .q-number { background: radial-gradient(circle at 30% 30%, #3f8bcb, #1b5a8c); width: 44px; height: 44px; border-radius: 60px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.3rem; color: white; box-shadow: inset 0 -1px 0 #ffffff80, 0 6px 10px rgba(0,0,0,0.15); flex-shrink: 0; }
   .q-meta { display: flex; flex-wrap: wrap; gap: 8px; }
-  .q-tag, .q-hab, .diff {
-    font-size: 0.7rem; font-weight: 600;
-    padding: 5px 12px; border-radius: 40px;
-    background: #e3efff; color: #1a5780;
-  }
-  .diff-hard { background: #ffe0e0; color: #b13e3e; }
-  .diff-med  { background: #ffefcf; color: #b46f0a; }
-  .diff-easy { background: #e1ffe8; color: #1b7341; }
-
-  .q-text    { font-size: 1rem; line-height: 1.5; margin: 12px 0; color: #1e2f3e; }
-  .q-context {
-    background: #ecf5fe;
-    border-left: 4px solid #2f7eb6;
-    padding: 14px 18px;
-    border-radius: 20px;
-    font-style: italic;
-    margin: 16px 0;
-    font-size: 0.9rem;
-    color: #204c6e;
-  }
-  .q-img {
-    max-width: 100%;
-    border-radius: 24px;
-    margin: 15px 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    display: block;
-  }
-
-  /* ── OPÇÕES ── */
+  .q-tag, .q-hab, .diff { font-size: 0.7rem; font-weight: 600; padding: 5px 12px; border-radius: 40px; background: #e3efff; color: #1a5780; }
+  .diff-hard { background: #ffe0e0; color: #b13e3e; } .diff-med { background: #ffefcf; color: #b46f0a; } .diff-easy { background: #e1ffe8; color: #1b7341; }
+  .q-text { font-size: 1rem; line-height: 1.5; margin: 12px 0; color: #1e2f3e; }
+  .q-context { background: #ecf5fe; border-left: 4px solid #2f7eb6; padding: 14px 18px; border-radius: 20px; font-style: italic; margin: 16px 0; font-size: 0.9rem; color: #204c6e; }
+  .q-img { max-width: 100%; border-radius: 24px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: block; }
   .options { list-style: none; display: flex; flex-direction: column; gap: 12px; margin: 20px 0 8px; }
-  .opt-btn {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 20px;
-    background: #f6faff;
-    border: 1px solid #bfd6f5;
-    border-radius: 60px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem; font-weight: 500;
-    color: #1c3c5c;
-    text-align: left; width: 100%;
-    cursor: pointer;
-    transition: all 0.07s linear;
-    box-shadow: 0 6px 0 #b7c9e2, 0 3px 10px rgba(0,0,0,0.1);
-  }
+  .opt-btn { display: flex; align-items: center; gap: 14px; padding: 14px 20px; background: #f6faff; border: 1px solid #bfd6f5; border-radius: 60px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500; color: #1c3c5c; text-align: left; width: 100%; cursor: pointer; transition: all 0.07s linear; box-shadow: 0 6px 0 #b7c9e2, 0 3px 10px rgba(0,0,0,0.1); }
   .opt-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b7c9e2, 0 4px 8px rgba(0,0,0,0.1); }
-  .opt-btn.selected-student {
-    background: #1976d2 !important;
-    border-color: #90caf9 !important;
-    box-shadow: 0 4px 0 #0d3c6e !important;
-    color: white !important;
-  }
-  .opt-btn.selected-student.green-variant {
-    background: #2e7d32 !important;
-    border-color: #a5d6a7 !important;
-    box-shadow: 0 4px 0 #1b5e20 !important;
-  }
-  .opt-btn:hover:not(:disabled) {
-    background: #e7f0ff;
-    transform: translateY(-1px);
-    box-shadow: 0 7px 0 #b7c9e2, 0 5px 12px rgba(0,0,0,0.15);
-  }
+  .opt-btn.selected-student { background: #1976d2 !important; border-color: #90caf9 !important; box-shadow: 0 4px 0 #0d3c6e !important; color: white !important; }
+  .opt-btn.selected-student.green-variant { background: #2e7d32 !important; border-color: #a5d6a7 !important; box-shadow: 0 4px 0 #1b5e20 !important; }
+  .opt-btn:hover:not(:disabled) { background: #e7f0ff; transform: translateY(-1px); box-shadow: 0 7px 0 #b7c9e2, 0 5px 12px rgba(0,0,0,0.15); }
   .opt-btn:disabled { opacity: 0.7; cursor: default; transform: none; box-shadow: 0 4px 0 #b7c9e2; }
-  .opt-letter {
-    font-weight: 800; font-size: 1rem;
-    background: #deeaff;
-    width: 32px; height: 32px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border-radius: 60px; color: #1f6190;
-    flex-shrink: 0;
-  }
+  .opt-letter { font-weight: 800; font-size: 1rem; background: #deeaff; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 60px; color: #1f6190; flex-shrink: 0; }
   .selected-student .opt-letter { background: #ffffffaa; color: #023b66; }
-
-  /* ── FEEDBACK ── */
-  .feedback {
-    display: none;
-    margin-top: 16px;
-    padding: 12px 18px;
-    border-radius: 28px;
-    background: #f1f7fe;
-    font-size: 0.85rem;
-    border-left: 4px solid #6c9fd1;
-  }
+  .feedback { display: none; margin-top: 16px; padding: 12px 18px; border-radius: 28px; background: #f1f7fe; font-size: 0.85rem; border-left: 4px solid #6c9fd1; }
   .feedback.show { display: block; }
-  .feedback.ok  { background: #dcf5e8; border-left-color: #2e7d32; color: #145c2e; }
+  .feedback.ok { background: #dcf5e8; border-left-color: #2e7d32; color: #145c2e; }
   .feedback.err { background: #ffe7e7; border-left-color: #c62828; color: #a12222; }
-
-  /* ── BOTÕES DE AÇÃO ── */
   .action-buttons { display: flex; justify-content: center; gap: 28px; margin: 32px 0 24px; flex-wrap: wrap; }
-  .action-btn {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700; font-size: 1rem;
-    padding: 14px 40px;
-    border: none; border-radius: 60px;
-    background: #f0f7ff; color: #144d74;
-    cursor: pointer;
-    transition: 0.07s linear;
-    box-shadow: 0 7px 0 #b3c7df;
-    letter-spacing: 0.5px;
-    border: 1px solid white;
-  }
+  .action-btn { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1rem; padding: 14px 40px; border: 1px solid white; border-radius: 60px; background: #f0f7ff; color: #144d74; cursor: pointer; transition: 0.07s linear; box-shadow: 0 7px 0 #b3c7df; letter-spacing: 0.5px; }
   .action-btn:active { transform: translateY(4px); box-shadow: 0 3px 0 #b3c7df; }
   .action-btn#btn-submit-action { background: var(--green-ok); color: white; box-shadow: 0 7px 0 var(--green-shad); }
-  .action-btn#btn-clear-action  { background: var(--orange-btn); color: white; box-shadow: 0 7px 0 var(--orange-shd); }
+  .action-btn#btn-clear-action { background: var(--orange-btn); color: white; box-shadow: 0 7px 0 var(--orange-shd); }
   .action-btn:disabled { opacity: 0.5; transform: none; cursor: not-allowed; }
-
-  #send-status {
-    max-width: 860px; margin: 12px auto;
-    border-radius: 28px; padding: 14px 24px;
-    font-weight: 500; text-align: center;
-    background: #ffffffcc; backdrop-filter: blur(4px);
-  }
-  #hab-panel {
-    background: #fef9e6; border-radius: 32px;
-    padding: 20px; margin: 20px auto; max-width: 860px;
-    display: none; border: 1px solid #ffe0a3;
-  }
+  #send-status { max-width: 860px; margin: 12px auto; border-radius: 28px; padding: 14px 24px; font-weight: 500; text-align: center; background: #ffffffcc; backdrop-filter: blur(4px); }
+  #hab-panel { background: #fef9e6; border-radius: 32px; padding: 20px; margin: 20px auto; max-width: 860px; display: none; border: 1px solid #ffe0a3; }
   #hab-panel.visible { display: block; }
-  #result-panel {
-    background: #ffffffdd; backdrop-filter: blur(8px);
-    border-radius: 48px; padding: 32px 24px;
-    text-align: center; margin: 32px auto; max-width: 580px;
-    display: none; border: 1px solid #bbd6ff;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-  }
-  .score-circle {
-    width: 120px; height: 120px;
-    border-radius: 100%;
-    margin: 0 auto 20px;
-    display: flex; flex-direction: column; justify-content: center;
-    background: #d9ebff;
-    box-shadow: inset 0 1px 5px #0001, 0 6px 12px rgba(0,0,0,0.1);
-  }
-
-  /* ── TELA DE BLOQUEIO ── */
-  #bloqueio-panel {
-    display: none;
-    max-width: 560px;
-    margin: 60px auto 0;
-    padding: 48px 36px;
-    background: rgba(255,255,255,0.97);
-    border-radius: 32px;
-    border: 2px solid #f9a825;
-    text-align: center;
-    box-shadow: 0 16px 28px -10px rgba(0,0,0,0.2);
-  }
+  #result-panel { background: #ffffffdd; backdrop-filter: blur(8px); border-radius: 48px; padding: 32px 24px; text-align: center; margin: 32px auto; max-width: 580px; display: none; border: 1px solid #bbd6ff; box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
+  .score-circle { width: 120px; height: 120px; border-radius: 100%; margin: 0 auto 20px; display: flex; flex-direction: column; justify-content: center; background: #d9ebff; box-shadow: inset 0 1px 5px #0001, 0 6px 12px rgba(0,0,0,0.1); }
+  #bloqueio-panel { display: none; max-width: 560px; margin: 60px auto 0; padding: 48px 36px; background: rgba(255,255,255,0.97); border-radius: 32px; border: 2px solid #f9a825; text-align: center; box-shadow: 0 16px 28px -10px rgba(0,0,0,0.2); }
   #bloqueio-panel .bl-icon { font-size: 3.5rem; margin-bottom: 16px; }
   #bloqueio-panel h2 { color: #7a5500; font-size: 1.3rem; margin-bottom: 14px; }
-  #bloqueio-panel p  { color: #5a4000; font-size: 0.95rem; line-height: 1.7; margin-bottom: 10px; }
+  #bloqueio-panel p { color: #5a4000; font-size: 0.95rem; line-height: 1.7; margin-bottom: 10px; }
   #bloqueio-panel .bl-hint { color: #999; font-size: 0.8rem; margin-top: 18px; }
-
-  @media (max-width: 640px) {
-    .video-section { padding: 18px; }
-    .q-card { padding: 18px; }
-    .opt-btn { padding: 10px 14px; }
-    .video-title { font-size: 1rem; }
-  }
+  @media (max-width: 640px) { .video-section { padding: 18px; } .q-card { padding: 18px; } .opt-btn { padding: 10px 14px; } .video-title { font-size: 1rem; } }
 </style>
 </head>
 <body>
@@ -403,7 +102,6 @@
   <div class="subtitle">Ciências da Natureza · Prova Paulista · 9º ano EF · Revisão Genética/DNA</div>
 </header>
 
-<!-- ── TELA DE BLOQUEIO ── -->
 <div id="bloqueio-panel">
   <div class="bl-icon">🔒</div>
   <h2>Atividade já enviada</h2>
@@ -413,39 +111,25 @@
 
 <div class="main-wrap" id="main-wrap">
 
-  <!-- ══════════════════════════════
-       SEÇÃO DE VÍDEO
-  ══════════════════════════════ -->
+  <!-- SEÇÃO DE VÍDEO -->
   <div class="video-section">
     <div class="video-section-header">
       <span class="video-badge">📽️ Assista antes de responder</span>
       <h2 class="video-title">1ª Lei de Mendel — O Segredo da Revolução Genética</h2>
     </div>
-
     <div class="video-instruction">
       <strong>Instrução:</strong> Assista ao vídeo completo antes de responder as questões.
       Ele cobre os principais conceitos de <strong>Genética, DNA e Divisão Celular</strong>
-      que serão cobrados nesta atividade. Você pode pausar, retroceder e rever
-      quantas vezes precisar. 🎯
+      que serão cobrados nesta atividade. Você pode pausar, retroceder e rever quantas vezes precisar. 🎯
     </div>
-
     <div class="video-wrapper">
-      <video
-        id="video-aula"
-        controls
-        preload="metadata"
-        poster=""
-        controlsList="nodownload"
-        playsinline
-      >
-        <source src="mendel_video.mp4" type="video/mp4">
-        <p style="color:#fff;padding:20px;text-align:center">
-          Seu navegador não suporta vídeo HTML5.
-          <a href="mendel_video.mp4" style="color:#90caf9">Clique aqui para baixar.</a>
-        </p>
-      </video>
+      <iframe
+        src="https://www.youtube.com/embed/UWSgvGIuc6M?start=37&rel=0&modestbranding=1"
+        title="1ª Lei de Mendel — O Segredo da Revolução Genética"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
     </div>
-
     <div class="video-topics">
       <span class="topic-chip">1ª Lei de Mendel</span>
       <span class="topic-chip">Dominância e Recessividade</span>
@@ -456,7 +140,6 @@
       <span class="topic-chip">Divisão Celular</span>
     </div>
   </div>
-  <!-- ══════════════════════════════ -->
 
   <!-- IDENTIFICAÇÃO -->
   <div class="id-card">
@@ -492,18 +175,9 @@
     <div class="progress-label" id="prog-label">0 / 10 respondidas</div>
   </div>
 
-  <!-- ══ QUESTÕES ══ -->
-
   <!-- Q1 -->
   <div class="q-card" id="q1">
-    <div class="q-header">
-      <div class="q-number">1</div>
-      <div class="q-meta">
-        <span class="q-tag">Divisão Celular · Mitose</span>
-        <span class="q-hab">EF09CI07</span>
-        <span class="diff diff-hard">Alta dificuldade</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">1</div><div class="q-meta"><span class="q-tag">Divisão Celular · Mitose</span><span class="q-hab">EF09CI07</span><span class="diff diff-hard">Alta dificuldade</span></div></div>
     <p class="q-text">Qual a ordem correta das fases da mitose?</p>
     <div class="q-context">"Prófase, Metáfase, Anáfase, Telófase e Citocinese."</div>
     <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/lBGbwMlMqHAjwRpy.jpg" class="q-img" alt="Fases da Mitose">
@@ -518,14 +192,7 @@
 
   <!-- Q2 -->
   <div class="q-card" id="q2">
-    <div class="q-header">
-      <div class="q-number">2</div>
-      <div class="q-meta">
-        <span class="q-tag">Mitose vs Meiose</span>
-        <span class="q-hab">EF09CI07</span>
-        <span class="diff diff-med">Média</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">2</div><div class="q-meta"><span class="q-tag">Mitose vs Meiose</span><span class="q-hab">EF09CI07</span><span class="diff diff-med">Média</span></div></div>
     <p class="q-text">Diferença correta entre mitose e meiose?</p>
     <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/ZKamHlNKoSAzEkeP.png" class="q-img" alt="Mitose vs Meiose">
     <ul class="options" id="opts2">
@@ -539,14 +206,7 @@
 
   <!-- Q3 -->
   <div class="q-card" id="q3">
-    <div class="q-header">
-      <div class="q-number">3</div>
-      <div class="q-meta">
-        <span class="q-tag">Meiose - função</span>
-        <span class="q-hab">EF09CI08</span>
-        <span class="diff diff-easy">Fácil</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">3</div><div class="q-meta"><span class="q-tag">Meiose - função</span><span class="q-hab">EF09CI08</span><span class="diff diff-easy">Fácil</span></div></div>
     <p class="q-text">Principal função da meiose para a reprodução sexuada?</p>
     <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihX6PmIs4IX2_2Jn1G-HGieFZo49ZCvpq9V8655ivs2DDu496NPQ-hZMGFL5fAmm4C2hi4-WMsRdQJXm3D_s0_nw2XJA9MIC6XjhORBuX5NVqFqbPczSEYf95YpPY_Qrun3LQwfy8bH8fpvrZIP7oe9okjSLeJuQ8cISZfgOipVBPAPZLxxeVLvoUUMuoP/s1524/ChatGPT%20Image%2012%20de%20jun.%20de%202026,%2008_16_25.png" class="q-img" alt="Meiose">
     <ul class="options" id="opts3">
@@ -560,14 +220,7 @@
 
   <!-- Q4 -->
   <div class="q-card" id="q4">
-    <div class="q-header">
-      <div class="q-number">4</div>
-      <div class="q-meta">
-        <span class="q-tag">DNA complementar</span>
-        <span class="q-hab">EF09CI09</span>
-        <span class="diff diff-med">Média</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">4</div><div class="q-meta"><span class="q-tag">DNA complementar</span><span class="q-hab">EF09CI09</span><span class="diff diff-med">Média</span></div></div>
     <p class="q-text">Fita modelo: A — T — G — C — A — T — G — C. Qual a complementar?</p>
     <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/oNQbOvrZxGcZZdXC.png" class="q-img" alt="DNA complementar">
     <ul class="options" id="opts4">
@@ -581,14 +234,7 @@
 
   <!-- Q5 -->
   <div class="q-card" id="q5">
-    <div class="q-header">
-      <div class="q-number">5</div>
-      <div class="q-meta">
-        <span class="q-tag">Dominância Incompleta</span>
-        <span class="q-hab">EF09CI10</span>
-        <span class="diff diff-hard">Alta</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">5</div><div class="q-meta"><span class="q-tag">Dominância Incompleta</span><span class="q-hab">EF09CI10</span><span class="diff diff-hard">Alta</span></div></div>
     <p class="q-text">Cruzamento de duas rosas F1 (Rr × Rr) em dominância incompleta resulta em:</p>
     <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/KsijBNcIjEhiLsOp.jpg" class="q-img" alt="Dominância incompleta">
     <ul class="options" id="opts5">
@@ -602,14 +248,7 @@
 
   <!-- Q6 -->
   <div class="q-card" id="q6">
-    <div class="q-header">
-      <div class="q-number">6</div>
-      <div class="q-meta">
-        <span class="q-tag">1ª Lei de Mendel</span>
-        <span class="q-hab">EF09CI10</span>
-        <span class="diff diff-med">Média</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">6</div><div class="q-meta"><span class="q-tag">1ª Lei de Mendel</span><span class="q-hab">EF09CI10</span><span class="diff diff-med">Média</span></div></div>
     <p class="q-text">João (aa) e esposa (Aa): chance de filho albino?</p>
     <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/zHzABBTBBZCKrXhK.jpg" class="q-img" alt="Cruzamento Mendel">
     <ul class="options" id="opts6">
@@ -623,14 +262,7 @@
 
   <!-- Q7 -->
   <div class="q-card" id="q7">
-    <div class="q-header">
-      <div class="q-number">7</div>
-      <div class="q-meta">
-        <span class="q-tag">Genótipo x Fenótipo</span>
-        <span class="q-hab">EF09CI10</span>
-        <span class="diff diff-easy">Fácil</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">7</div><div class="q-meta"><span class="q-tag">Genótipo x Fenótipo</span><span class="q-hab">EF09CI10</span><span class="diff diff-easy">Fácil</span></div></div>
     <p class="q-text">Pais cabelo liso com filhos crespos (recessivo cc). O que é correto?</p>
     <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/cBOwxFiJxYWCAeDV.jpg" class="q-img" alt="Genótipo fenótipo">
     <ul class="options" id="opts7">
@@ -644,14 +276,7 @@
 
   <!-- Q8 -->
   <div class="q-card" id="q8">
-    <div class="q-header">
-      <div class="q-number">8</div>
-      <div class="q-meta">
-        <span class="q-tag">OGM - Soja transgênica</span>
-        <span class="q-hab">EF09CI12</span>
-        <span class="diff diff-easy">Fácil</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">8</div><div class="q-meta"><span class="q-tag">OGM - Soja transgênica</span><span class="q-hab">EF09CI12</span><span class="diff diff-easy">Fácil</span></div></div>
     <p class="q-text">Soja resistente a herbicida é exemplo de OGM em qual área?</p>
     <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/VwLYxRKrbrgcGQKc.gif" class="q-img" alt="OGM soja">
     <ul class="options" id="opts8">
@@ -665,14 +290,7 @@
 
   <!-- Q9 -->
   <div class="q-card" id="q9">
-    <div class="q-header">
-      <div class="q-number">9</div>
-      <div class="q-meta">
-        <span class="q-tag">Radiações ionizantes</span>
-        <span class="q-hab">EF09CI11</span>
-        <span class="diff diff-med">Média</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">9</div><div class="q-meta"><span class="q-tag">Radiações ionizantes</span><span class="q-hab">EF09CI11</span><span class="diff diff-med">Média</span></div></div>
     <p class="q-text">Principal efeito das radiações ionizantes no DNA?</p>
     <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663425180148/prglEMIciiXPaWVF.jpg" class="q-img" alt="Radiação DNA">
     <ul class="options" id="opts9">
@@ -686,14 +304,7 @@
 
   <!-- Q10 -->
   <div class="q-card" id="q10">
-    <div class="q-header">
-      <div class="q-number">10</div>
-      <div class="q-meta">
-        <span class="q-tag">Célula vegetal</span>
-        <span class="q-hab">EF09CI06</span>
-        <span class="diff diff-med">Média</span>
-      </div>
-    </div>
+    <div class="q-header"><div class="q-number">10</div><div class="q-meta"><span class="q-tag">Célula vegetal</span><span class="q-hab">EF09CI06</span><span class="diff diff-med">Média</span></div></div>
     <p class="q-text">Estruturas exclusivas das células vegetais:</p>
     <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYESMnDGY5Z82eTq2BdMjQPMs4MiNafItq1XG0CsbMuj4e7Er8KBQFMIZ6nEF1HgLz5rR4ZJKiHEh_ZNvytgbB9siAFj00h8HtZr5VSMCIs0dmSir5EI-f8igq81klgVx0QI3l5IGMPlWpF_flnmioEQXBwqWHToc0beaeC6N0qvuOk6GnlXfi5BJP0pA_/s1453/ChatGPT%20Image%2012%20de%20jun.%20de%202026,%2008_09_00.png" class="q-img" alt="Célula vegetal">
     <ul class="options" id="opts10">
@@ -723,11 +334,9 @@
 </div>
 
 <script>
-  // ==================== CONSTANTES ====================
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyERmYA0s2pKTrz47WrXoP52JVcfZL0pnJwyTwBdC_rpfzi5e3xx24pXfZTSUnAEuZB/exec';
   const LS_PREFIX  = 'quiz_wms9_sent_';
 
-  // ==================== DADOS DOS ALUNOS ====================
   const STUDENTS = {
     A: [
       [1,"ALICE CARVALHO","114160176","X","0000114160176XSP@al.educacao.sp.gov.br"],
@@ -807,8 +416,7 @@
     ]
   };
 
-  const ANSWERS = {1:'B',2:'B',3:'B',4:'A',5:'B',6:'C',7:'B',8:'B',9:'C',10:'B'};
-
+  const ANSWERS  = {1:'B',2:'B',3:'B',4:'A',5:'B',6:'C',7:'B',8:'B',9:'C',10:'B'};
   const FEEDBACKS = {
     1:{B:"✓ Ordem correta da mitose!",wrong:"✗ Ordem: Prófase → Metáfase → Anáfase → Telófase → Citocinese."},
     2:{B:"✓ Mitose 2 células diploides; Meiose 4 haploides.",wrong:"✗ Mitose origina 2 células; meiose reduz pela metade."},
@@ -822,280 +430,177 @@
     10:{B:"✓ Parede celular, cloroplastos.",wrong:"✗ Estruturas vegetais exclusivas."}
   };
 
-  // ==================== ESTADO ====================
   let chosen = {}, submitted = false, switchCount = 0, currentRA = '';
 
-  // ==================== ANTI-REENVIO ====================
-  function lsKey(ra) { return LS_PREFIX + ra.replace(/[^a-zA-Z0-9]/g,'_'); }
+  function lsKey(ra){ return LS_PREFIX + ra.replace(/[^a-zA-Z0-9]/g,'_'); }
 
-  function bloquearUI(registro) {
+  function bloquearUI(r){
     document.getElementById('main-wrap').style.display = 'none';
     document.getElementById('send-status').style.display = 'none';
     document.getElementById('hab-panel').style.display = 'none';
     document.getElementById('result-panel').style.display = 'none';
-    const painel = document.getElementById('bloqueio-panel');
     document.getElementById('bl-msg').innerHTML =
-      '<strong>' + registro.nome + '</strong>, suas respostas já foram '
-      + 'registradas no dia <strong>' + registro.dataEnvio + '</strong>.<br>'
-      + 'Não é possível enviar novamente.';
-    painel.style.display = 'block';
+      '<strong>'+r.nome+'</strong>, suas respostas já foram registradas no dia <strong>'+r.dataEnvio+'</strong>.<br>Não é possível enviar novamente.';
+    document.getElementById('bloqueio-panel').style.display = 'block';
   }
 
-  function checkBloqueio(ra) {
-    if (!ra) return false;
+  function checkBloqueio(ra){
+    if(!ra) return false;
     const raw = localStorage.getItem(lsKey(ra));
-    if (!raw) return false;
-    try { bloquearUI(JSON.parse(raw)); return true; } catch(e) { return false; }
+    if(!raw) return false;
+    try{ bloquearUI(JSON.parse(raw)); return true; }catch(e){ return false; }
   }
 
-  function gravarEnvio(ra, nome, turma) {
+  function gravarEnvio(ra,nome,turma){
     const agora = new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'});
-    localStorage.setItem(lsKey(ra), JSON.stringify({nome, ra, turma, dataEnvio: agora}));
+    localStorage.setItem(lsKey(ra), JSON.stringify({nome,ra,turma,dataEnvio:agora}));
   }
 
-  // ==================== ENVIO JSONP ====================
-  function toBase64UTF8(str) {
+  function toBase64UTF8(str){
     const bytes = new TextEncoder().encode(str);
-    let bin = '';
-    bytes.forEach(b => bin += String.fromCharCode(b));
-    return btoa(bin);
+    let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b)); return btoa(bin);
   }
 
-  function enviarAppScript(payload, onSuccess, onError) {
-    const cbName = 'cb_' + Date.now() + '_' + Math.floor(Math.random()*99999);
-    const b64    = toBase64UTF8(JSON.stringify(payload));
-    const url    = SCRIPT_URL + '?callback=' + cbName + '&data=' + encodeURIComponent(b64);
-    const script = document.createElement('script');
-    script.src   = url;
-
-    const timer = setTimeout(function() {
-      cleanup();
-      onSuccess({status:'ok',via:'timeout-assumed'});
-    }, 18000);
-
-    function cleanup() {
-      clearTimeout(timer);
-      delete window[cbName];
-      if (script.parentNode) script.parentNode.removeChild(script);
-    }
-
-    window[cbName] = function(resp) {
-      cleanup();
-      if (resp && (resp.status === 'ok' || resp.result === 'success')) onSuccess(resp);
-      else onError('Servidor retornou erro: ' + JSON.stringify(resp));
-    };
-
-    script.onerror = function() { cleanup(); onSuccess({status:'ok',via:'jsonp-onerror-redirect'}); };
+  function enviarAppScript(payload,onSuccess,onError){
+    const cbName='cb_'+Date.now()+'_'+Math.floor(Math.random()*99999);
+    const url=SCRIPT_URL+'?callback='+cbName+'&data='+encodeURIComponent(toBase64UTF8(JSON.stringify(payload)));
+    const script=document.createElement('script'); script.src=url;
+    const timer=setTimeout(()=>{ cleanup(); onSuccess({status:'ok',via:'timeout'}); },18000);
+    function cleanup(){ clearTimeout(timer); delete window[cbName]; if(script.parentNode) script.parentNode.removeChild(script); }
+    window[cbName]=function(r){ cleanup(); (r&&(r.status==='ok'||r.result==='success'))?onSuccess(r):onError(JSON.stringify(r)); };
+    script.onerror=()=>{ cleanup(); onSuccess({status:'ok',via:'onerror'}); };
     document.head.appendChild(script);
   }
 
-  // ==================== IDENTIFICAÇÃO ====================
-  function updateStudentList() {
-    const t   = document.getElementById('sel-turma').value;
-    const sel = document.getElementById('sel-aluno');
-    sel.innerHTML = '<option value="">Selecione o aluno…</option>';
-    currentRA = '';
-    if (!t) { sel.disabled = true; return; }
-    sel.disabled = false;
-    (STUDENTS[t]||[]).forEach(s => {
-      const opt = document.createElement('option');
-      opt.value = opt.textContent = s[0] + ' – ' + s[1];
-      sel.appendChild(opt);
-    });
+  function updateStudentList(){
+    const t=document.getElementById('sel-turma').value;
+    const sel=document.getElementById('sel-aluno');
+    sel.innerHTML='<option value="">Selecione o aluno…</option>'; currentRA='';
+    if(!t){sel.disabled=true;return;} sel.disabled=false;
+    (STUDENTS[t]||[]).forEach(s=>{ const o=document.createElement('option'); o.value=o.textContent=s[0]+' – '+s[1]; sel.appendChild(o); });
   }
 
-  function fillStudentInfo() {
-    const t   = document.getElementById('sel-turma').value;
-    const val = document.getElementById('sel-aluno').value;
-    currentRA = '';
-    if (!t || !val) return;
-    const num   = parseInt(val.split(' – ')[0]);
-    const found = (STUDENTS[t]||[]).find(s => s[0] === num);
-    if (!found) return;
-    const raFormatado = found[2] + '-' + found[3];
-    document.getElementById('inp-chamada').value = found[0];
-    document.getElementById('inp-ra').value      = raFormatado;
-    document.getElementById('inp-email').value   = found[4];
-    currentRA = raFormatado;
-    checkBloqueio(currentRA);
+  function fillStudentInfo(){
+    const t=document.getElementById('sel-turma').value, val=document.getElementById('sel-aluno').value; currentRA='';
+    if(!t||!val) return;
+    const found=(STUDENTS[t]||[]).find(s=>s[0]===parseInt(val.split(' – ')[0]));
+    if(!found) return;
+    const ra=found[2]+'-'+found[3];
+    document.getElementById('inp-chamada').value=found[0];
+    document.getElementById('inp-ra').value=ra;
+    document.getElementById('inp-email').value=found[4];
+    currentRA=ra; checkBloqueio(ra);
   }
 
-  document.getElementById('sel-turma').addEventListener('change', updateStudentList);
-  document.getElementById('sel-aluno').addEventListener('change', fillStudentInfo);
-  document.getElementById('inp-date').valueAsDate = new Date();
+  document.getElementById('sel-turma').addEventListener('change',updateStudentList);
+  document.getElementById('sel-aluno').addEventListener('change',fillStudentInfo);
+  document.getElementById('inp-date').valueAsDate=new Date();
 
-  // ==================== TROCA DE ABA ====================
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && !submitted) {
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden&&!submitted){
       switchCount++;
-      const w = document.getElementById('tab-warning');
-      w.classList.add('visible');
-      document.getElementById('tab-warning-text').innerHTML =
-        '⚠️ Você trocou de aba (' + switchCount + 'x).';
+      document.getElementById('tab-warning').classList.add('visible');
+      document.getElementById('tab-warning-text').innerHTML='⚠️ Você trocou de aba ('+switchCount+'x).';
     }
   });
 
-  // ==================== ESCOLHAS ====================
-  function applyColorToButton(btn, isSelected) {
-    if (isSelected) {
+  function applyColor(btn,sel){
+    if(sel){
       btn.classList.add('selected-student');
-      if (!btn.dataset.greenState) btn.dataset.greenState = 'false';
-      if (btn.dataset.greenState === 'false') {
-        btn.classList.remove('green-variant');
-        btn.dataset.greenState = 'true';
-        btn.classList.add('green-variant');
-      } else {
-        btn.classList.remove('green-variant');
-        btn.dataset.greenState = 'false';
-      }
-    } else {
-      btn.classList.remove('selected-student','green-variant');
-      delete btn.dataset.greenState;
-    }
+      if(!btn.dataset.gs) btn.dataset.gs='false';
+      if(btn.dataset.gs==='false'){ btn.classList.add('green-variant'); btn.dataset.gs='true'; }
+      else { btn.classList.remove('green-variant'); btn.dataset.gs='false'; }
+    } else { btn.classList.remove('selected-student','green-variant'); delete btn.dataset.gs; }
   }
 
-  function handleChoice(q, letter, btn) {
-    if (submitted) return;
-    chosen[q] = letter;
-    document.querySelectorAll('#opts' + q + ' .opt-btn').forEach(b => applyColorToButton(b,false));
-    applyColorToButton(btn,true);
-    btn.classList.add('pressed');
-    setTimeout(() => btn.classList.remove('pressed'), 130);
-    document.getElementById('q' + q).classList.add('answered');
+  function handleChoice(q,letter,btn){
+    if(submitted) return;
+    chosen[q]=letter;
+    document.querySelectorAll('#opts'+q+' .opt-btn').forEach(b=>applyColor(b,false));
+    applyColor(btn,true);
+    btn.classList.add('pressed'); setTimeout(()=>btn.classList.remove('pressed'),130);
+    document.getElementById('q'+q).classList.add('answered');
     updateProgress();
   }
 
-  function updateProgress() {
-    const n = Object.keys(chosen).length;
-    document.getElementById('prog-fill').style.width = (n * 10) + '%';
-    document.getElementById('prog-label').innerText  = n + ' / 10 respondidas';
-    document.getElementById('btn-submit-action').disabled = false;
+  function updateProgress(){
+    const n=Object.keys(chosen).length;
+    document.getElementById('prog-fill').style.width=(n*10)+'%';
+    document.getElementById('prog-label').innerText=n+' / 10 respondidas';
+    document.getElementById('btn-submit-action').disabled=false;
   }
 
-  for (let i = 1; i <= 10; i++) {
-    document.querySelectorAll('#opts' + i + ' .opt-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.preventDefault();
-        handleChoice(parseInt(btn.dataset.q), btn.dataset.letter, btn);
-      });
+  for(let i=1;i<=10;i++){
+    document.querySelectorAll('#opts'+i+' .opt-btn').forEach(btn=>{
+      btn.addEventListener('click',e=>{ e.preventDefault(); handleChoice(parseInt(btn.dataset.q),btn.dataset.letter,btn); });
     });
   }
 
-  function limparEscolhas() {
-    if (submitted) return;
-    chosen = {};
-    for (let i = 1; i <= 10; i++) {
-      document.querySelectorAll('#opts' + i + ' .opt-btn').forEach(b => applyColorToButton(b,false));
-      document.getElementById('q' + i).classList.remove('answered');
-    }
+  document.getElementById('btn-clear-action').addEventListener('click',()=>{
+    if(submitted) return; chosen={};
+    for(let i=1;i<=10;i++){ document.querySelectorAll('#opts'+i+' .opt-btn').forEach(b=>applyColor(b,false)); document.getElementById('q'+i).classList.remove('answered'); }
     updateProgress();
-  }
-  document.getElementById('btn-clear-action').addEventListener('click', limparEscolhas);
+  });
 
-  // ==================== ENVIO ====================
-  function enviar() {
-    if (submitted) return;
-    const turma = document.getElementById('sel-turma').value;
-    const aluno = document.getElementById('sel-aluno').value;
-    const data  = document.getElementById('inp-date').value;
-    const ra    = document.getElementById('inp-ra').value;
-    const email = document.getElementById('inp-email').value;
-    const num   = document.getElementById('inp-chamada').value;
+  function enviar(){
+    if(submitted) return;
+    const turma=document.getElementById('sel-turma').value, aluno=document.getElementById('sel-aluno').value,
+          data=document.getElementById('inp-date').value, ra=document.getElementById('inp-ra').value,
+          email=document.getElementById('inp-email').value, num=document.getElementById('inp-chamada').value;
+    if(!turma||!aluno){alert('Preencha turma e nome!');return;}
+    if(Object.keys(chosen).length<10){alert('Responda todas as questões (faltam '+(10-Object.keys(chosen).length)+')');return;}
+    if(checkBloqueio(ra)) return;
+    submitted=true;
 
-    if (!turma || !aluno) { alert('Preencha turma e nome!'); return; }
-    if (Object.keys(chosen).length < 10) {
-      alert('Responda todas as questões (faltam ' + (10 - Object.keys(chosen).length) + ')');
-      return;
-    }
-    if (checkBloqueio(ra)) return;
-
-    submitted = true;
-
-    let score = 0;
-    const naoAtingidas = [];
-    for (let i = 1; i <= 10; i++) {
-      const user = chosen[i], correct = ANSWERS[i];
-      document.querySelectorAll('#opts' + i + ' .opt-btn').forEach(b => {
-        b.disabled = true;
-        if (b.dataset.letter === correct) b.classList.add('alternate-correct');
-        else if (b.dataset.letter === user && user !== correct) b.classList.add('wrong');
+    let score=0; const naoAtingidas=[];
+    for(let i=1;i<=10;i++){
+      const user=chosen[i],correct=ANSWERS[i];
+      document.querySelectorAll('#opts'+i+' .opt-btn').forEach(b=>{
+        b.disabled=true;
+        if(b.dataset.letter===correct) b.classList.add('alternate-correct');
+        else if(b.dataset.letter===user&&user!==correct) b.classList.add('wrong');
       });
-      const fb = document.getElementById('fb' + i);
-      fb.classList.add('show');
-      if (user === correct) {
-        score++;
-        fb.classList.add('ok');
-        fb.innerHTML = FEEDBACKS[i][correct];
-      } else {
-        fb.classList.add('err');
-        fb.innerHTML = FEEDBACKS[i].wrong;
-        const habCod  = document.querySelector('#q' + i + ' .q-hab')?.innerText || 'EF09CI';
-        const habTema = document.querySelector('#q' + i + ' .q-tag')?.innerText || '';
-        naoAtingidas.push({cod: habCod, tema: habTema});
-      }
+      const fb=document.getElementById('fb'+i); fb.classList.add('show');
+      if(user===correct){ score++; fb.classList.add('ok'); fb.innerHTML=FEEDBACKS[i][correct]; }
+      else { fb.classList.add('err'); fb.innerHTML=FEEDBACKS[i].wrong;
+        naoAtingidas.push({cod:document.querySelector('#q'+i+' .q-hab')?.innerText||'EF09CI',tema:document.querySelector('#q'+i+' .q-tag')?.innerText||''}); }
     }
 
-    const pct = Math.round(score / 10 * 100);
-    document.getElementById('result-panel').style.display = 'block';
-    document.getElementById('score-pct').innerText  = pct + '%';
-    document.getElementById('score-frac').innerText = score + '/10';
-    document.getElementById('result-msg').innerText =
-      pct >= 70 ? 'Parabéns! 🎉' : pct >= 50 ? 'Bom desempenho' : 'Estude mais';
-    document.getElementById('result-sub').innerText = 'Você acertou ' + score + ' de 10.';
+    const pct=Math.round(score/10*100);
+    document.getElementById('result-panel').style.display='block';
+    document.getElementById('score-pct').innerText=pct+'%';
+    document.getElementById('score-frac').innerText=score+'/10';
+    document.getElementById('result-msg').innerText=pct>=70?'Parabéns! 🎉':pct>=50?'Bom desempenho':'Estude mais';
+    document.getElementById('result-sub').innerText='Você acertou '+score+' de 10.';
 
-    if (naoAtingidas.length) {
-      document.getElementById('hab-list').innerHTML =
-        naoAtingidas.map(h => '<li><strong>' + h.cod + '</strong> — ' + h.tema + '</li>').join('');
+    if(naoAtingidas.length){
+      document.getElementById('hab-list').innerHTML=naoAtingidas.map(h=>'<li><strong>'+h.cod+'</strong> — '+h.tema+'</li>').join('');
       document.getElementById('hab-panel').classList.add('visible');
     }
 
-    document.getElementById('btn-submit-action').disabled = true;
-    document.getElementById('btn-clear-action').disabled  = true;
+    document.getElementById('btn-submit-action').disabled=true;
+    document.getElementById('btn-clear-action').disabled=true;
 
-    const statusDiv = document.getElementById('send-status');
-    statusDiv.style.display    = 'block';
-    statusDiv.style.background = '#fff9e0';
-    statusDiv.style.color      = '#7a5500';
-    statusDiv.innerHTML        = '⏳ Enviando respostas ao servidor…';
+    const s=document.getElementById('send-status');
+    s.style.display='block'; s.style.background='#fff9e0'; s.style.color='#7a5500';
+    s.innerHTML='⏳ Enviando respostas ao servidor…';
 
-    const respostas = {};
-    for (let i = 1; i <= 10; i++) respostas['q' + i] = chosen[i] || '';
-
-    const sheetMap  = {A:'9oA respostas WMS', B:'9oB respostas WMS'};
-    const nomeAluno = aluno.split(' – ').slice(1).join(' – ');
-
-    const payload = {
-      school:        'WMS',
-      sheetName:     sheetMap[turma],
-      studentName:   nomeAluno,
-      studentNumber: num,
-      studentGrade:  '9º Ano ' + turma,
-      studentEmail:  email,
-      date:          data,
-      switchCount:   switchCount,
-      ...respostas
-    };
+    const respostas={};
+    for(let i=1;i<=10;i++) respostas['q'+i]=chosen[i]||'';
+    const nomeAluno=aluno.split(' – ').slice(1).join(' – ');
 
     enviarAppScript(
-      payload,
-      function(resp) {
-        gravarEnvio(ra, nomeAluno, '9º Ano ' + turma);
-        statusDiv.style.background = '#d4edda';
-        statusDiv.style.color      = '#145c2e';
-        statusDiv.innerHTML        = '✅ Respostas registradas com sucesso!';
-      },
-      function(errMsg) {
-        submitted = false;
-        document.getElementById('btn-submit-action').disabled = false;
-        statusDiv.style.background = '#ffe7e7';
-        statusDiv.style.color      = '#a12222';
-        statusDiv.innerHTML        = '⚠️ Erro ao enviar: ' + errMsg
-          + '<br><small>Suas respostas foram computadas localmente. Fale com o professor.</small>';
-      }
+      {school:'WMS',sheetName:{A:'9oA respostas WMS',B:'9oB respostas WMS'}[turma],
+       studentName:nomeAluno,studentNumber:num,studentGrade:'9º Ano '+turma,
+       studentEmail:email,date:data,switchCount,...respostas},
+      ()=>{ gravarEnvio(ra,nomeAluno,'9º Ano '+turma); s.style.background='#d4edda'; s.style.color='#145c2e'; s.innerHTML='✅ Respostas registradas com sucesso!'; },
+      err=>{ submitted=false; document.getElementById('btn-submit-action').disabled=false;
+             s.style.background='#ffe7e7'; s.style.color='#a12222';
+             s.innerHTML='⚠️ Erro ao enviar: '+err+'<br><small>Fale com o professor.</small>'; }
     );
   }
 
-  document.getElementById('btn-submit-action').addEventListener('click', enviar);
+  document.getElementById('btn-submit-action').addEventListener('click',enviar);
   updateProgress();
 </script>
 </body>
